@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+
 import './App.css';
+import Login from './components/Login/Login';
+import Navbar from './components/Navbar/Navbar';
+import Signup from './components/Signup/Signup';
+import ProfileChangePassword from './components/ProfileChangePassword/ProfileChangePassword';
+import TypePeople from './components/TypePeople/TypePeople';
+import { Card, Input,Layout } from "antd";
+import RentSignup from './components/RentSignup/RentSignup';
+import Profile from './components/Profile/Profile';
+import ManageAccount from './components/ManageAccount/ManageAccount';
+import Home from './components/Home/Home';
+import PlaceCard from './components/Card/PlaceCard';
+import CardFollowPlace from './components/CardFollowPlace/CardFollowPlace';
+const {Header,Footer,Sider,Content}=Layout
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar/>
+      {/* <Login/> */}
+      {/* <Signup/> */}
+      {/* <TypePeople/> */}
+      {/* <RentSignup/> */}
+      {/* <ProfileChangePassword/>   */}
+      {/* <Profile/> */}
+      {/* <ManageAccount/> */}
+      <Home/>
+      {/* <PlaceCard/> */}
+      {/* <CardFollowPlace/> */}
+
     </div>
   );
 }
