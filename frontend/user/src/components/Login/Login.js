@@ -15,14 +15,17 @@ function Login() {
 
   return (
     <div className="Login">
+      <div style={{display:"flex"}}>
       <div className="background">
         <img className="text-intro" src="./assets/textintro.png" />
         <img className="background-login" src="./assets/backgroundlogin.png" />
       </div>
+      </div>
+      
       <div className="scene">
         <img className="loginscene" src="./assets/loginscene.png" />
       </div>
-      <div className="form-login">
+      <div className="form" style={{display:"flex",height:"30rem"}}>
         <Form
           ref={formRef}
           name="normal_login"

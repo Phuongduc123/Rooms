@@ -189,7 +189,6 @@ function Profile() {
                 <div style={{ flex: 5 }} />
               </div>
             </Form.Item>
-            
           </Form>
         </div>
         <div style={{ flex: 2 }} />
