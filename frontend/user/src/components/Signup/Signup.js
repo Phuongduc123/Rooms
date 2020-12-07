@@ -20,7 +20,7 @@ function Signup() {
         <img className="background-signup" src="./assets/backgroundlogin.png" />
       </div>
       <div className="scene">
-        <img className="signupscene" src="./assets/loginscene.png" />
+        <img className="signupscene" src="./assets/loginscene.png" width={1000} />
       </div>
       <div className="form">
         <Form

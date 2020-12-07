@@ -11,6 +11,7 @@ import ManageAccount from "./components/ManageAccount/ManageAccount";
 import Home from "./components/Home/Home";
 import PlaceCard from "./components/Card/PlaceCard";
 import CardFollowPlace from "./components/CardFollowPlace/CardFollowPlace";
+import Routers from "./Routers";
 const { Header, Footer, Sider, Content } = Layout;
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
       <Affix offsetTop={0}>
         <Navbar />
       </Affix>
+
+      <Routers/>
 
       {/* <Login /> */}
       {/* <Signup/> */}

@@ -30,7 +30,7 @@ li {
   text-decoration: none;
 }
 
-.option:hover {
+.option a:hover {
   color: #1890ff;
 }
 
