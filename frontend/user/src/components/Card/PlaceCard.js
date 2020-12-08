@@ -13,7 +13,7 @@ function PlaceCard() {
   return (
       <Card
         className="PlaceCard"
-
+        style={{width:180}}
         bordered={false}
         cover={
           <img
