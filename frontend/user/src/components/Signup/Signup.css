@@ -15,15 +15,15 @@
 }
 
 .signupscene {
-  width: 399px;
-  height: 351px;
+  width: 450px;
+  height: 380px;
   left: 5rem;
   top: 9rem;
 }
 .scene {
   position: absolute;
   margin-left: 8rem;
-  margin-top: 6rem;
+  margin-top: 5rem;
 }
 
 .form {

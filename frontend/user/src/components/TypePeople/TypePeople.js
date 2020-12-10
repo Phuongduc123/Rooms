@@ -21,13 +21,13 @@ function TypePeople() {
       <div className="find-room-button" style={{display:"flex"}}>
         <div style={{flex:3}}/>
         <Button style={{flex:1,fontFamily:"Montserrat",borderRadius:"30px",border:"3px solid #43E5EF"}} onClick={()=>{
-          history.push("/tenant-signup")
+          history.push("/signup")
         }}>
         Người cần tìm phòng
         </Button>
         <div style={{flex:0.2}}></div>
         <Button style={{flex:1,fontFamily:"Montserrat",borderRadius:"30px",border:"3px solid #43E5EF"}} onClick={()=>{
-          history.push("/signup")
+          history.push("/tenant-signup")
         }}>
         Người cho thuê phòng
         </Button>

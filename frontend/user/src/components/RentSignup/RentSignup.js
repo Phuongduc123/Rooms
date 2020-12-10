@@ -1,18 +1,41 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import "./RentSignup.css";
 import { Form, Input, Button, Checkbox, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-const { Search } = Input;
+import actions from "../../redux/actions/signup/index";
+import { connect } from "react-redux";
+import {useHistory} from "react-router";
 const { TextArea } = Input;
 
-function RentSignup() {
+function RentSignup(props) {
   const formRef = useRef();
+  
+  //history
+  let history = useHistory()
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  //state
+  const [nameInput,setNameInput] = useState("");
+  const [phoneInput,setPhoneInput] = useState("");
+  const [addressInput,setAddressInput] = useState("");
+  const [nameFollowCMTInput,setNameInputFollowCMTInput] = useState("");
+  const [CMTInput,setCMTInput] = useState("");
+  const [passwordInput,setPasswordInput] = useState("");
+  const [emailInput,setEmailInput]=useState("");
+  const [notification,setNotification]=useState([]);
+  const [successSignup,setSuccessSignup]=useState("");
+  
+
+  //hook
+  useEffect(() => {
+    console.log(successSignup)  
+    if (successSignup === true) {
+      history.push("/login");
+    }
+  }, [successSignup]);
+
+  const handleSignin = () => {
+      props.postInformTenantToSignup(emailInput,nameInput,passwordInput,nameFollowCMTInput,CMTInput,addressInput,phoneInput,setSuccessSignup,setNotification);
   };
-
-  const handleSignin = () => {};
 
   return (
     <div className="RentSignup">
@@ -29,7 +52,6 @@ function RentSignup() {
           ref={formRef}
           name="normal_signup"
           initialValues={{ remember: true }}
-          onFinish={onFinish}
           style={{
             flex: 3,
             background: "#e3fbfd",
@@ -70,7 +92,6 @@ function RentSignup() {
           </Form.Item>
           <Form.Item
             name="name"
-            rules={[{ required: true, message: "Please input your name!" }]}
           >
             <div style={{ display: "flex" }}>
               <div style={{ flex: 3 }}>
@@ -82,9 +103,12 @@ function RentSignup() {
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
                   }}
+                  value={nameInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Họ và tên"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setNameInput(value.target.value)
+                  }}
                 />
               </div>
               <div style={{ flex: 2 }} />
@@ -97,16 +121,18 @@ function RentSignup() {
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
                   }}
+                  value={emailInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Địa chỉ email"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setEmailInput(value.target.value)
+                  }}
                 />
               </div>
             </div>
           </Form.Item>
           <Form.Item
             name="phone"
-            rules={[{ required: true, message: "Please input your name!" }]}
           >
             <div style={{ display: "flex" }}>
               <div style={{ flex: 3 }}>
@@ -118,9 +144,12 @@ function RentSignup() {
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
                   }}
+                  value={phoneInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Số điện thoại"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setPhoneInput(value.target.value)
+                  }}
                 />
               </div>
               <div style={{ flex: 2 }} />
@@ -135,16 +164,18 @@ function RentSignup() {
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
                   }}
+                  value={passwordInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Mật khẩu (tối thiểu 8 ký tự)"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setPasswordInput(value.target.value)
+                  }}
                 />
               </div>
             </div>
           </Form.Item>
           <Form.Item
             name="sex"
-            rules={[{ required: true, message: "Please input your name!" }]}
           >
             <div style={{ display: "flex" }}>
               <div style={{ flex: 3 }}>
@@ -176,21 +207,7 @@ function RentSignup() {
                   </Radio>
                 </Radio.Group>
               </div>
-              <div style={{ flex: 2 }} />
-              <div style={{ flex: 3 }}>
-                <div className="text-password">Địa chỉ email</div>
-                <Input
-                  style={{
-                    borderRadius: "30px",
-                    background: "#e3fbfd",
-                    border: "2px solid #43E5EF",
-                    boxSizing: "border-box",
-                  }}
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="Địa chỉ email"
-                  onChange={(value) => {}}
-                />
-              </div>
+
             </div>
           </Form.Item>
           <Form.Item>
@@ -206,8 +223,7 @@ function RentSignup() {
             </div>
           </Form.Item>
           <Form.Item
-            name="name"
-            rules={[{ required: true, message: "Please input your name!" }]}
+            name="nameCMT"
           >
             <div style={{ display: "flex" }}>
               <div style={{ flex: 3 }}>
@@ -219,9 +235,12 @@ function RentSignup() {
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
                   }}
+                  value={nameFollowCMTInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Họ và tên theo CMTND"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setNameInputFollowCMTInput(value.target.value)
+                  }}
                 />
                 <div className="text-password" style={{ marginTop: "15px" }}>
                   Số CMTND
@@ -233,9 +252,12 @@ function RentSignup() {
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
                   }}
+                  value={CMTInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Số CMTND"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setCMTInput(value.target.value)
+                  }}
                 />
               </div>
               <div style={{ flex: 2 }} />
@@ -244,14 +266,18 @@ function RentSignup() {
                 <TextArea
                   rows={4}
                   style={{
-                    borderRadius: "30px",
+                    borderRadius: "20px",
                     background: "#e3fbfd",
                     border: "2px solid #43E5EF",
                     boxSizing: "border-box",
+                    padding:"15px"
                   }}
+                  value={addressInput}
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   placeholder="Hộ khẩu thường trú (phường/ quận/ thành phố)"
-                  onChange={(value) => {}}
+                  onChange={(value) => {
+                    setAddressInput(value.target.value)
+                  }}
                 />
               </div>
             </div>
@@ -279,6 +305,9 @@ function RentSignup() {
               </Button>
               <div style={{flex:4}}></div>
             </div>
+            {notification.map((noti,index)=>{
+              return <div style={{color:"red",textAlign:"center"}} key={index}>{noti}</div>
+            })}
           </Form.Item>
           <Form.Item>
             <div style={{ textAlign: "center" }}>
@@ -293,4 +322,18 @@ function RentSignup() {
   );
 }
 
-export default RentSignup;
+const mapStateToProps = (state) => {
+  return {
+
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postInformTenantToSignup: (email,username,password,fullname,identication,address,phoneNumber,setSuccessSignup,setNotification) => {
+      dispatch(actions.postInformTenantToSignup(email,username,password,fullname,identication,address,phoneNumber,setSuccessSignup,setNotification));
+    },
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(RentSignup);

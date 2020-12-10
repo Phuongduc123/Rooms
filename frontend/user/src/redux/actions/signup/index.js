@@ -1,17 +1,34 @@
-import {
-	FETCH_QR_CODE,
-	FETCH_QR_CODE_FAILED,
-	FETCH_QR_CODE_SUCCEED,
-} from "./action_type";
+/* eslint-disable import/no-anonymous-default-export */
+import { POST_INFORM_TO_SIGNUP,POST_INFORM_TENANT_TO_SIGNUP } from "./action_type";
 
 export default {
-	fetchQRCode: (data) => {
-		return {
-			type: FETCH_QR_CODE,
-			params: {
-				data
-			}
-		}
-	},
-	
-}
+  postInformToSignup: (email, username, password,setSuccessSignup,setNotification) => {
+    return {
+      type: POST_INFORM_TO_SIGNUP,
+      params: {
+        email,
+        username,
+        password,
+      },
+      setSuccessSignup,
+      setNotification
+    };
+  },
+  postInformTenantToSignup: (email,username,password,fullname,identication,address,phoneNumber,setSuccessSignup,setNotification)=>{
+    console.log("111")
+    return{
+      type:POST_INFORM_TENANT_TO_SIGNUP,
+      params:{
+        email,
+        username,
+        password,
+        fullname,
+        identication,
+        address,
+        phoneNumber
+      },
+      setSuccessSignup,
+      setNotification
+    }
+  }
+};

@@ -26,7 +26,7 @@ function App() {
       </Affix>
 
       {/* Router for full screen */}
-      {/* <Routers/> */}
+      <Routers/>
 
       {/* <Login /> */}
       {/* <Signup/> */}
@@ -39,7 +39,7 @@ function App() {
       {/* <PlaceCard/> */}
       {/* <CardFollowPlace/> */}
       {/* <RoomFilter/> */}
-      <RoomDetail/>
+      {/* <RoomDetail/> */}
       
     </div>
   );

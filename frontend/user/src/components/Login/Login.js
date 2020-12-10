@@ -1,36 +1,52 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from "react";
 import "./Login.css";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-const { Search } = Input;
+import actions from "../../redux/actions/login/index";
+import { connect } from "react-redux";
+import { useHistory } from "react-router";
 
-function Login() {
+function Login(props) {
   const formRef = useRef();
+  //history
+  let history = useHistory();
 
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+  //state
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [logged, setLogged] = useState(false);
+
+  //hook
+  useEffect(() => {
+    if(logged===true)
+      history.push("/home");
+  }, [logged]);
+
+  const handleLogin = () => {
+    props.postToLogin(emailInput, passwordInput, setLogged);
   };
-
-  const handleSignin = () => {};
 
   return (
     <div className="Login">
-      <div style={{display:"flex"}}>
-      <div className="background">
-        <img className="text-intro" src="./assets/textintro.png" />
-        <img className="background-login" src="./assets/backgroundlogin.png" />
+      <div style={{ display: "flex" }}>
+        <div className="background">
+          <img className="text-intro" src="./assets/textintro.png" />
+          <img
+            className="background-login"
+            src="./assets/backgroundlogin.png"
+          />
+        </div>
       </div>
-      </div>
-      
+
       <div className="scene">
         <img className="loginscene" src="./assets/loginscene.png" />
       </div>
-      <div className="form" style={{display:"flex",height:"30rem"}}>
+      <div className="form" style={{ display: "flex", height: "30rem" }}>
         <Form
           ref={formRef}
           name="normal_login"
           initialValues={{ remember: true }}
-          onFinish={onFinish}
         >
           <Form.Item>
             <div>
@@ -43,7 +59,12 @@ function Login() {
           </Form.Item>
           <Form.Item
             name="email"
-            rules={[{ required: true, message: "Please input your Email!" }]}
+            rules={[
+              {
+                required: emailInput === "",
+                message: "Please input your Email!",
+              },
+            ]}
           >
             <div className="text-email">Địa chỉ email</div>
             <Input
@@ -53,16 +74,22 @@ function Login() {
                 border: "2px solid #43e5ef",
                 boxSizing: "border-box",
               }}
+              value={emailInput}
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Email"
               onChange={(value) => {
-                console.log(value);
+                setEmailInput(value.target.value);
               }}
             />
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
+            rules={[
+              {
+                required: passwordInput === "",
+                message: "Please input your Password!",
+              },
+            ]}
           >
             <div className="text-password">Mật khẩu</div>
             <Input
@@ -72,10 +99,13 @@ function Login() {
                 border: "2px solid #43E5EF",
                 boxSizing: "border-box",
               }}
+              value={passwordInput}
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
-              onChange={(value) => {}}
+              onChange={(value) => {
+                setPasswordInput(value.target.value);
+              }}
             />
           </Form.Item>
           <Form.Item>
@@ -92,17 +122,17 @@ function Login() {
               htmlType="submit"
               className="login-form-button"
               onClick={() => {
-                handleSignin();
+                handleLogin();
               }}
             >
               Đăng nhập
             </Button>
           </Form.Item>
           <Form.Item>
-            <div className="text-signin-intro" style={{textAlign:"center"}}>
+            <div className="text-signin-intro" style={{ textAlign: "center" }}>
               Bạn quên mật khẩu? <a>Nhấn vào đây</a>
             </div>
-            <div className="text-signin-intro" style={{textAlign:"center"}}>
+            <div className="text-signin-intro" style={{ textAlign: "center" }}>
               Bạn chưa có tài khoản Easy{" "}
               <span className="text-logo">Accomod</span>? <a>Đăng ký</a>
             </div>
@@ -113,4 +143,16 @@ function Login() {
   );
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postToLogin: (email, password, setLogged) => {
+      dispatch(actions.postToLogin(email, password, setLogged));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

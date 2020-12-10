@@ -12,7 +12,7 @@ const { Meta } = Card;
 
 function CardFollowPlace() {
   return (
-    <div classNmae="CardFollowPlace">
+    <div className="CardFollowPlace">
       <div style={{ display: "flex",marginTop:"30px" }}>
         <div className="line"/>
         <div style={{ flexDirection: "column",flex:1 }}>

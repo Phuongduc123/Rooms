@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import "./Navbar.css";
-import { Input,Layout } from "antd";
+import { Input,Layout, Popover } from "antd";
 import {Link, useHistory} from 'react-router-dom'
 import { withRouter } from "react-router-dom";
+import Avatar from "antd/lib/avatar/avatar";
 const {Header,Footer,Sider,Content}=Layout
 const { Search } = Input;
 
 function Navbar(props) {
   let history=useHistory();
+  //state
+
+  //variable 
+  const contentOverAvatar = (
+    <div>
+      <Link style={{color:"black"}} to="/profile"><p>Phuong Duc</p></Link>
+      <p>Content</p>
+      <Link  style={{color:"black",cursor:"pointer"}} to="/login" onClick={()=>logout()}>Đăng xuất</Link>
+    </div>
+  );
+
   // function
   const signup=()=>{
     history.push('/select-people-type')
   }
+  const logout=()=>{
+    localStorage.removeItem("Rooms_logged")
+    localStorage.removeItem("Rooms_token")
+  }
+
   return (
     <div className="Navbar">
       <ul className="nav-list">
@@ -40,6 +57,11 @@ function Navbar(props) {
             <button className="signup-btn" onClick={()=>signup()}>Đăng ký</button>
             <div className="I" />
             <Link to="/login" className="signin-btn">Đăng nhập</Link>
+            <Link style={{marginLeft:"10px",display:localStorage.getItem("Rooms_logged")==="true"?"block":"none"}} to="/profile">
+              <Popover content={contentOverAvatar}>
+                <Avatar  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              </Popover>
+            </Link>
           </div>
         </li>
       </ul>
