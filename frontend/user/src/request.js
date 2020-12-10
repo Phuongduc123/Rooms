@@ -84,3 +84,19 @@ export const postToLogin = async (
     });
 };
 
+//profile
+export const getRenterProfile = async (
+  setProfile
+) => {
+  console.log(localStorage.getItem("Rooms_token")) 
+  await axios
+    .get("http://127.0.0.1:8000/renterProfile/", {headers:{Authorization: `JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("login: ", response);
+      
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+};

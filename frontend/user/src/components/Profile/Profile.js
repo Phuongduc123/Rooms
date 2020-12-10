@@ -1,19 +1,27 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 import { Form, Input, Button, Checkbox, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import SideMenu from "../SideMenu/SideMenu.js";
-const { Search } = Input;
+import actions from "../../redux/actions/profile/index";
+import { connect } from "react-redux";
 const { TextArea } = Input;
 
-function Profile() {
+function Profile(props) {
   const formRef = useRef();
+  const [profile,setProfile] = useState("");
+
+  useEffect(()=>{
+    console.log(profile)
+  },[profile])
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
 
-  const handleSignin = () => {};
+  const handleSignin = () => {
+    props.getRenterProfile(setProfile)
+  };
 
   return (
     <div className="Profile">
@@ -206,4 +214,18 @@ function Profile() {
   );
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+  return {
+
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getRenterProfile: (setProfile) => {
+      dispatch(actions.getRenterProfile(setProfile));
+    },
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Profile);
