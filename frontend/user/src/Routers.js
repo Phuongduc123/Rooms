@@ -1,6 +1,9 @@
-import React from "react";
+import { Affix } from "antd";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Chat from "./components/Chat/Chat";
 import Home from "./components/Home/Home";
+import HostProfile from "./components/HostProfile/HostProfile";
 import Login from "./components/Login/Login";
 import ManageAccount from "./components/ManageAccount/ManageAccount";
 import Profile from "./components/Profile/Profile";
@@ -10,6 +13,10 @@ import Signup from "./components/Signup/Signup";
 import TypePeople from "./components/TypePeople/TypePeople";
 
 function Routers() {
+  const [logged,setLogged]= useState("false")
+  useEffect(()=>{
+    setLogged(localStorage.getItem("Rooms_logged"))
+  },[])
   return (
     <div>
       {/* A <Switch> looks through its children <Route>s and
@@ -39,7 +46,20 @@ function Routers() {
         <Route path="/delete-account">
           <ManageAccount />
         </Route>
+        <Route path="/host-profile">
+          <HostProfile/>
+        </Route>
       </Switch>
+      {/* message */}
+      {logged==="true" ? (
+        <div style={{ position: "absolute", right: "10px",zIndex:5 }}>
+          <Affix offsetBottom={0}>
+            <Chat />
+          </Affix>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

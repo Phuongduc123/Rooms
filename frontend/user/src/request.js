@@ -70,7 +70,7 @@ export const postToLogin = async (
     .post("http://127.0.0.1:8000/login/", params)
     .then((response) => {
       console.log("login: ", response);
-      if(response.data.success==="not oke"){
+      if(response.data==="not ok"){
 
       }else{
         setLogged(true)
@@ -88,12 +88,58 @@ export const postToLogin = async (
 export const getRenterProfile = async (
   setProfile
 ) => {
-  console.log(localStorage.getItem("Rooms_token")) 
   await axios
-    .get("http://127.0.0.1:8000/renterProfile/", {headers:{Authorization: `JWT ${localStorage.getItem("Rooms_token")}`}})
+    .get("http://127.0.0.1:8000/renterProfile/", {headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
     .then((response) => {
       console.log("login: ", response);
+      if(response.status===200){
+        setProfile(response.data)
+      }
       
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+};
+
+export const putRenterUpdateProfile  = async (
+  params
+) => { 
+  await axios
+    .put("http://127.0.0.1:8000/renterUpdateProfile/",params,{headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log(response)
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+};
+
+export const getHostProfile = async (
+  setProfile
+) => { 
+  await axios
+    .get("http://127.0.0.1:8000/hostProfile/", {headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("host Profile: ", response);
+      if(response.status===200){
+        setProfile(response.data)
+      }
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+}
+
+export const putHostUpdateProfile  = async (
+  params
+) => { 
+  await axios
+    .put("http://127.0.0.1:8000/hostUpdateProfile/",params,{headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("update profile:",response)
       
     })
     .catch((error) => {

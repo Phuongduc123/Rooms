@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Profile.css";
+import "./HostProfile.css";
 import { Form, Input, Button, Checkbox, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import SideMenu from "../SideMenu/SideMenu.js";
@@ -7,14 +7,15 @@ import actions from "../../redux/actions/profile/index";
 import { connect } from "react-redux";
 const { TextArea } = Input;
 
-function Profile(props) {
+function HostProfile(props) {
   const formRef = useRef();
   const [profile,setProfile] = useState("");
   const [email,setEmail] = useState("");
-  const [username,setUsername] = useState("");
+  const [CMT,setCMT] = useState("");
   const [fullname,setFullname] = useState("");
-  const [favoriteAddress,setFavoriteAddress] = useState("");
-
+  const [address,setAddress] = useState("");
+  const [username,setUsername] = useState("");
+  const [phoneNumber,setPhoneNumber] = useState("");
 
   //hook
   useEffect(()=>{
@@ -22,17 +23,20 @@ function Profile(props) {
     setEmail(profile.email);
     setUsername(profile.username);
     setFullname(profile.fullname);
-    setFavoriteAddress(profile.interested_area);
+    setAddress(profile.address);
+    setCMT(profile.identication);
+    setPhoneNumber(profile.phoneNumber)
+
   },[profile])
 
   useEffect(()=>{
-    props.getRenterProfile(setProfile)
+    props.getHostProfile(setProfile)
   },[])
 
 
   //function
   const handleSignin = () => {
-    props.putRenterUpdateProfile(fullname,favoriteAddress);
+    props.putHostUpdateProfile(fullname,CMT,address,phoneNumber);
   };
 
   return (
@@ -120,18 +124,32 @@ function Profile(props) {
                 }}
               />
             </Form.Item>
-            {/* <Form.Item>
-              <div className="text-password">Ngày sinh</div>
+            <Form.Item>
+              <div className="text-password">Số điện thoại</div>
               <Input
                 style={{
                   borderRadius: "5px",
                 }}
-                placeholder="Ngày sinh"
+                value={phoneNumber}
+                placeholder="Số điện thoại"
                 onChange={(value) => {
-                  console.log(value);
+                  setPhoneNumber(value.target.value)
                 }}
               />
-            </Form.Item> */}
+            </Form.Item>
+            <Form.Item>
+              <div className="text-password">Số CMND</div>
+              <Input
+                style={{
+                  borderRadius: "5px",
+                }}
+                value={CMT}
+                placeholder="Số CMND"
+                onChange={(value) => {
+                  setCMT(value.target.value)
+                }}
+              />
+            </Form.Item>
             {/* <Form.Item
               name="sex"
             >
@@ -163,30 +181,18 @@ function Profile(props) {
                 </Radio>
               </Radio.Group>
             </Form.Item> */}
-            {/* <Form.Item>
-              <div className="text-password">Địa chỉ</div>
-              <Input
-                style={{
-                  borderRadius: "5px",
-                }}
-                placeholder="Địa chỉ"
-                onChange={(value) => {
-                  console.log(value);
-                }}
-              />
-            </Form.Item> */}
             <Form.Item>
-              <div className="text-password">Địa chỉ yêu thích</div>
+              <div className="text-password">Địa chỉ</div>
               <TextArea
                 rows={4}
                 style={{
                   borderRadius: "5px",
                 }}
-                value={favoriteAddress}
+                value={address}
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 placeholder="Phường/ quận/ thành phố)"
                 onChange={(value) => {
-                  setFavoriteAddress(value.target.value)
+                  setAddress(value.target.value)
                 }}
               />
             </Form.Item>
@@ -239,13 +245,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getRenterProfile: (setProfile) => {
-      dispatch(actions.getRenterProfile(setProfile));
+    getHostProfile: (setProfile) => {
+      dispatch(actions.getHostProfile(setProfile));
     },
-    putRenterUpdateProfile: (fullname,interested_area) =>{
-      dispatch(actions.putRenterUpdateProfile(fullname,interested_area))
+    putHostUpdateProfile: (fullname,identication,address,phoneNumber) =>{
+      dispatch(actions.putHostUpdateProfile(fullname,identication,address,phoneNumber))
     }
   };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Profile);
+export default connect(mapStateToProps,mapDispatchToProps)(HostProfile);

@@ -18,5 +18,9 @@ code {
 .location-filter >.ant-select:not(.ant-select-customize-input) .ant-select-selector{
   height: 30px;
   background-color: #fff;
+}
 
+.content-chat~.ant-input{
+  font-family: "Ubuntu";
+  margin-top: 10px;
 }

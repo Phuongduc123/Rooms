@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import "./Home.css";
-import { Form, Input, Button, Carousel } from "antd";
+import { Form, Input, Button, Carousel, Affix } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import CardFollowPlace from "../CardFollowPlace/CardFollowPlace";
+import Chat from "../Chat/Chat";
 const { Search } = Input;
 
 const contentStyle = {
@@ -53,6 +54,7 @@ function Home() {
         <div style={{ flex: 0 }} />
       </div>
     </div>
+  
   );
 }
 
