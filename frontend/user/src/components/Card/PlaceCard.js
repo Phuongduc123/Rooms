@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./PlaceCard.css";
 import { Card, Avatar } from "antd";
 import {
@@ -6,21 +6,52 @@ import {
   EllipsisOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import { useHistory } from "react-router";
 
 const { Meta } = Card;
 
-function PlaceCard() {
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+function PlaceCard(props) {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const history=useHistory();
+
+  //hook
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
       <Card
+        style={{width:windowDimensions.width/7,cursor:"pointer"}}
+        onClick={()=>{
+          history.push({
+            pathname:"/room-detail",
+            search:`?query=${props.id}`,
+            state:{
+              id:props.id,
+              post:props.post
+            }
+          })
+        }}
         className="PlaceCard"
-        style={{width:180}}
         bordered={false}
         cover={
           <img
-            width="200px"
             height="100px"
             alt="example"
-            src="./assets/room.jpeg"
+            src={props.image}
           />
         }
         actions={[
@@ -34,11 +65,13 @@ function PlaceCard() {
           avatar={
             <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
           }
-          title="Huy le"
+          title={props.hostName}
           description="Hà Nội" 
         />
       </Card>
   );
 }
+
+
 
 export default PlaceCard;

@@ -1,19 +1,29 @@
 import React, { useRef, useState } from "react";
 import "./ProfileChangePassword.css";
-import { Form, Input, Button, Checkbox, Radio } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Input, Button } from "antd";
+import actions from "../../redux/actions/profile/index";
+import { connect } from "react-redux";
 import SideMenu from "../SideMenu/SideMenu.js";
-const { Search } = Input;
-const { TextArea } = Input;
 
-function ProfileChangePassword() {
+function ProfileChangePassword(props) {
   const formRef = useRef();
+  const [passwordInput, setPasswordInput] = useState("");
+  const [newPasswordInput, setNewPasswordInput] = useState("");
+  const [newPasswordAgainInput, setNewPasswordAgainInput] = useState("");
+  const [notification, setNotification] = useState(false);
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
   };
 
-  const handleSignin = () => {};
+  const handleSignin = () => {
+    if(newPasswordAgainInput===newPasswordInput){
+      props.putChangePassword(passwordInput, newPasswordInput, setNotification);
+    } else{
+      setNotification(true);
+    }
+    
+  };
 
   return (
     <div className="Profile">
@@ -48,8 +58,8 @@ function ProfileChangePassword() {
 
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }} />
-        <div className="sidebar-div" style={{ flex: 2.2,height:"70%" }}>
-          <SideMenu />
+        <div className="sidebar-div" style={{ flex: 2.2, height: "70%" }}>
+          <SideMenu type="account" />
         </div>
 
         <div style={{ flex: 0.2 }} />
@@ -67,9 +77,10 @@ function ProfileChangePassword() {
                   borderRadius: "5px",
                 }}
                 type="password"
+                value={passwordInput}
                 placeholder="Mật khẩu hiện tại"
                 onChange={(value) => {
-                  console.log(value);
+                  setPasswordInput(value.target.value);
                 }}
               />
             </Form.Item>
@@ -80,9 +91,10 @@ function ProfileChangePassword() {
                   borderRadius: "5px",
                 }}
                 type="password"
+                value={newPasswordInput}
                 placeholder="Mật khẩu mới"
                 onChange={(value) => {
-                  console.log(value);
+                  setNewPasswordInput(value.target.value);
                 }}
               />
             </Form.Item>
@@ -93,11 +105,25 @@ function ProfileChangePassword() {
                   borderRadius: "5px",
                 }}
                 type="password"
+                value={newPasswordAgainInput}
                 placeholder="Nhập lại mật khẩu"
                 onChange={(value) => {
-                  console.log(value);
+                  setNewPasswordAgainInput(value.target.value);
                 }}
               />
+              {notification === true ? (
+                <div
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                    marginTop: "10px",
+                  }}
+                >
+                  Kiểm tra lại thông tin của bạn
+                </div>
+              ) : (
+                <></>
+              )}
             </Form.Item>
             <Form.Item>
               <div style={{ display: "flex" }}>
@@ -127,13 +153,34 @@ function ProfileChangePassword() {
         </div>
         <div style={{ flex: 2 }} />
       </div>
-      <div style={{display:"flex"}}>
-        <div style={{flex:0}}/>
-        <img style={{flex:7,width:"1rem"}} className="Footer" src="./assets/FootPage.png"/>
-        <div style={{flex:0}}/>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 0 }} />
+        <img
+          style={{ flex: 7, width: "1rem" }}
+          className="Footer"
+          src="./assets/FootPage.png"
+        />
+        <div style={{ flex: 0 }} />
       </div>
     </div>
   );
 }
 
-export default ProfileChangePassword;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    putChangePassword: (password, newPassword, setNotification) => {
+      dispatch(
+        actions.putChangePassword(password, newPassword, setNotification)
+      );
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileChangePassword);

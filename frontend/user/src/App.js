@@ -14,7 +14,6 @@ import ManageAccount from "./components/ManageAccount/ManageAccount";
 import Home from "./components/Home/Home";
 import PlaceCard from "./components/Card/PlaceCard";
 import CardFollowPlace from "./components/CardFollowPlace/CardFollowPlace";
-import RoomDetail from "./components/RoomDetail/RoomDetail";
 import Routers from "./Routers";
 import Chat from "./components/Chat/Chat";
 

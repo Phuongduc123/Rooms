@@ -4,12 +4,14 @@ import {
   PUT_RENTER_UPDATE_PROFILE,
   GET_HOST_PROFILE,
   PUT_HOST_UPDATE_PROFILE,
+  PUT_CHANGE_PASSWORD,
 } from "../actions/profile/action_type";
 import {
   getRenterProfile,
   putRenterUpdateProfile,
   getHostProfile,
   putHostUpdateProfile,
+  putChangePassword,
 } from "../../request";
 
 export default (state = {}, action) => {
@@ -32,6 +34,11 @@ export default (state = {}, action) => {
     case PUT_HOST_UPDATE_PROFILE: {
       putHostUpdateProfile(action.params);
       return { ...state };
+    }
+
+    case PUT_CHANGE_PASSWORD:{
+      putChangePassword(action.params,action.setNotification);
+      return {...state};
     }
 
     default: {

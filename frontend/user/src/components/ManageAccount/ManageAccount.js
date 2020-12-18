@@ -49,7 +49,7 @@ function ManageAccount() {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }} />
         <div className="sidebar-div" style={{ flex: 2.2, height: "70%" }}>
-          <SideMenu />
+            <SideMenu type="account"/>
         </div>
 
         <div style={{ flex: 0.2 }} />

@@ -6,9 +6,11 @@ import Home from "./components/Home/Home";
 import HostProfile from "./components/HostProfile/HostProfile";
 import Login from "./components/Login/Login";
 import ManageAccount from "./components/ManageAccount/ManageAccount";
+import ManagePost from "./components/ManagePost/ManagePost";
 import Profile from "./components/Profile/Profile";
 import ProfileChangePassword from "./components/ProfileChangePassword/ProfileChangePassword";
 import RentSignup from "./components/RentSignup/RentSignup";
+import RoomDetail from "./components/RoomDetail/RoomDetail";
 import Signup from "./components/Signup/Signup";
 import TypePeople from "./components/TypePeople/TypePeople";
 
@@ -49,17 +51,14 @@ function Routers() {
         <Route path="/host-profile">
           <HostProfile/>
         </Route>
+        <Route path="/manage-post">
+          <ManagePost/>
+        </Route>
+        <Route path="/room-detail">
+          <RoomDetail/>
+        </Route>
       </Switch>
-      {/* message */}
-      {logged==="true" ? (
-        <div style={{ position: "absolute", right: "10px",zIndex:5 }}>
-          <Affix offsetBottom={0}>
-            <Chat />
-          </Affix>
-        </div>
-      ) : (
-        <></>
-      )}
+      
     </div>
   );
 }

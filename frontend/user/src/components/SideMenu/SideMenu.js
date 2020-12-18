@@ -6,9 +6,10 @@ import {Link} from "react-router-dom"
 const { Search } = Input;
 const { TextArea } = Input;
 
-function SideMenu() {
+function SideMenu(props) {
   return (
         <div>
+          {props.type==='account'?
           <ul className="list-sidebar">
             <li className="elm">
               <Link to="/profile">Thông tin tài khoản</Link>
@@ -19,7 +20,19 @@ function SideMenu() {
             <li className="elm">
               <Link to="/delete-account">Quản lý tài khoản</Link>
             </li>
-          </ul>
+          </ul>:
+          //host
+          <ul className="list-sidebar">
+            <li className="elm">
+              <Link to="/manage-post">Đang được đăng</Link>
+            </li>
+            <li className="elm">
+              <Link to="/manage-post-being-approved">Đang được duyệt</Link>
+            </li>
+            <li className="elm">
+              <Link to="/manage-post-expired">Đã hết hạn</Link>
+            </li>
+          </ul>}
         </div>
   );
 }

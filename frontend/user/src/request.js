@@ -74,8 +74,11 @@ export const postToLogin = async (
 
       }else{
         setLogged(true)
+        console.log(response)
         localStorage.setItem("Rooms_logged",true)
         localStorage.setItem("Rooms_token",response.data.token)
+        localStorage.setItem("Rooms_user_type",response.data.user_type)
+        
       }
       
     })
@@ -146,3 +149,58 @@ export const putHostUpdateProfile  = async (
       console.log("error: ", error);  
     });
 };
+
+export const putChangePassword  = async (
+  params,
+  setNotification
+) => { 
+  await axios
+    .put("http://127.0.0.1:8000/changePassword/",params,{headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("change password:",response)
+      if(response.data!=="ok"){
+        setNotification(true); 
+      }else{
+        setNotification(false);
+      }
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+};
+
+//Post
+
+export const getHostPostList = async (
+  setResponse
+) => { 
+  await axios
+    .get("http://127.0.0.1:8000/post/hostPostList/", {headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("host post list: ", response);
+      setResponse(response.data)
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+}
+
+export const getRoomDetail = async (
+  params,
+  setResponse
+) => { 
+  await axios
+    .get(`http://127.0.0.1:8000/post/postDetail/${params.id}`, {headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("post Detail: ", response);
+      setResponse(response.data)
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+}
+
+

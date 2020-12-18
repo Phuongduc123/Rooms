@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { GET_RENTER_PROFILE,PUT_RENTER_UPDATE_PROFILE,GET_HOST_PROFILE,PUT_HOST_UPDATE_PROFILE } from "./action_type";
+import { GET_RENTER_PROFILE,PUT_RENTER_UPDATE_PROFILE,GET_HOST_PROFILE,PUT_HOST_UPDATE_PROFILE, PUT_CHANGE_PASSWORD } from "./action_type";
 
 export default {
   getRenterProfile: (setProfile) => {
@@ -34,5 +34,15 @@ export default {
       }
     }
   },
+  putChangePassword:(password,new_password,setNotification)=>{
+    return {
+      type: PUT_CHANGE_PASSWORD,
+      params:{
+        password,
+        new_password
+      },
+      setNotification
+    }
+  }
   
 };

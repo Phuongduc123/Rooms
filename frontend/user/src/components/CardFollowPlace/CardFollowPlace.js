@@ -40,10 +40,7 @@ function CardFollowPlace() {
         <div style={{ flex: 3 }}>
           <PlaceCard />
         </div>
-        <div style={{ flex: 1 }} />
-        <div style={{ flex: 3 }}>
-          <PlaceCard />
-        </div>
+        
       </div>
     </div>
   );

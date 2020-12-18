@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import SideMenu from "../SideMenu/SideMenu.js";
 import actions from "../../redux/actions/profile/index";
 import { connect } from "react-redux";
+import SelectionProfile from "../SelectionProfile/SelectionProfile";
 const { TextArea } = Input;
 
 function HostProfile(props) {
@@ -41,20 +42,7 @@ function HostProfile(props) {
 
   return (
     <div className="Profile">
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1 }} />
-        <ul className="list-profile" style={{ flex: 14 }}>
-          <li className="option">
-            <a>Tài khoản</a>
-          </li>
-          <li className="option" style={{ opacity: "0.5" }}>
-            <a>Yêu thích</a>
-          </li>
-          <li className="option" style={{ opacity: "0.5" }}>
-            <a>Thông báo</a>
-          </li>
-        </ul>
-      </div>
+      <SelectionProfile/>
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
@@ -73,7 +61,7 @@ function HostProfile(props) {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1 }} />
         <div className="sidebar-div" style={{ flex: 2.2, height: "70%" }}>
-          <SideMenu />
+          <SideMenu type="account"/>
         </div>
 
         <div style={{ flex: 0.2 }} />
@@ -150,37 +138,6 @@ function HostProfile(props) {
                 }}
               />
             </Form.Item>
-            {/* <Form.Item
-              name="sex"
-            >
-              <div className="text-password">Giới tính</div>
-              <Radio.Group
-                style={{
-                  marginLeft: "20px",
-                  marginTop: "10px",
-                  fontFamily: "Montserrat",
-                }}
-              >
-                <Radio
-                  style={{ marginLeft: "20px", fontFamily: "Montserrat" }}
-                  value={1}
-                >
-                  Nam
-                </Radio>
-                <Radio
-                  style={{ marginLeft: "20px", fontFamily: "Montserrat" }}
-                  value={2}
-                >
-                  Nữ
-                </Radio>
-                <Radio
-                  style={{ marginLeft: "20px", fontFamily: "Montserrat" }}
-                  value={3}
-                >
-                  Khác
-                </Radio>
-              </Radio.Group>
-            </Form.Item> */}
             <Form.Item>
               <div className="text-password">Địa chỉ</div>
               <TextArea
