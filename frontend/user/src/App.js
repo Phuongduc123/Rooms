@@ -16,6 +16,7 @@ import PlaceCard from "./components/Card/PlaceCard";
 import CardFollowPlace from "./components/CardFollowPlace/CardFollowPlace";
 import Routers from "./Routers";
 import Chat from "./components/Chat/Chat";
+import CreatePost from "./components/CreatePost/CreatePost";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -30,7 +31,7 @@ function App(props) {
       <Routers />
 
       {/* <Login /> */}
-      {/* <Signup/> */}
+      {/* <Signup/> */} 
       {/* <TypePeople/> */}
       {/* <RentSignup/> */}
       {/* <ProfileChangePassword/>   */}
@@ -41,6 +42,7 @@ function App(props) {
       {/* <CardFollowPlace/> */}
       {/* <RoomFilter/> */}
       {/* <RoomDetail/> */}
+      {/* <CreatePost/> */}
 
       {/* message */}
 

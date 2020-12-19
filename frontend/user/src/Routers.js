@@ -2,6 +2,7 @@ import { Affix } from "antd";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Chat from "./components/Chat/Chat";
+import CreatePost from "./components/CreatePost/CreatePost";
 import Home from "./components/Home/Home";
 import HostProfile from "./components/HostProfile/HostProfile";
 import Login from "./components/Login/Login";
@@ -56,6 +57,9 @@ function Routers() {
         </Route>
         <Route path="/room-detail">
           <RoomDetail/>
+        </Route>
+        <Route path="/create-post">
+          <CreatePost/>
         </Route>
       </Switch>
       

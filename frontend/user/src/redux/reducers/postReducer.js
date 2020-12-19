@@ -1,11 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { GET_HOST_POST_LIST_SUCCEED } from "../actions/post/action_type";
-import {} from "../../request";
+import { GET_HOST_POST_LIST_SUCCEED, GET_ROOM_DETAIL, GET_ROOM_DETAIL_SUCCEED,POST_POST } from "../actions/post/action_type";
+import {postPost} from "../../request";
 
 export default (
   state = {
     postListIsConfirmed: [],
     postListIsntConfirmed: [],
+    roomDetail:{}
   },
   action
 ) => {
@@ -25,6 +26,20 @@ export default (
         postListIsConfirmed: fakePostListIsConfirmed,
         postListIsntConfirmed: fakePostListIsntConfirmed,
       };
+    }
+
+    case GET_ROOM_DETAIL_SUCCEED:{
+      return {
+        ...state,
+        roomDetail:action.params.data
+      }
+    }
+
+    case POST_POST:{
+      postPost(action.params)
+      return {
+        ...state
+      }
     }
 
     default: {

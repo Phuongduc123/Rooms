@@ -179,7 +179,7 @@ export const getHostPostList = async (
     .get("http://127.0.0.1:8000/post/hostPostList/", {headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
     .then((response) => {
       console.log("host post list: ", response);
-      setResponse(response.data)
+      setResponse(response.data.data)
       
     })
     .catch((error) => {
@@ -202,5 +202,22 @@ export const getRoomDetail = async (
       console.log("error: ", error);  
     });
 }
+
+export const postPost  = async (
+  params
+) => { 
+  await axios
+    .post("http://127.0.0.1:8000/post/createPost/",params,{headers:{Authorization:`JWT ${localStorage.getItem("Rooms_token")}`}})
+    .then((response) => {
+      console.log("update profile:",response)
+      
+    })
+    .catch((error) => {
+      console.log("error: ", error);  
+    });
+};
+
+
+
 
 

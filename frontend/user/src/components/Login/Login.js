@@ -42,7 +42,7 @@ function Login(props) {
       <div className="scene">
         <img className="loginscene" src="./assets/loginscene.png" />
       </div>
-      <div className="form" style={{ display: "flex", height: "30rem" }}>
+      <div className="form" style={{ display: "flex", height: "30rem",width:"370px",height:"450px",marginTop:"-80px",marginRight:"50px",padding:"10px 20px" }}>
         <Form
           ref={formRef}
           name="normal_login"

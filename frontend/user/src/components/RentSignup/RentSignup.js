@@ -46,8 +46,8 @@ function RentSignup(props) {
         />
         <img className="text-intro-rentSignup" src="./assets/textintro.png" />
       </div>
-      <div className="form-rentSignup" style={{ display: "flex",marginBottom:"4rem" }}>
-        <div style={{ flex: 0.2 }} />
+      <div className="form-rentSignup" style={{ display: "flex",marginBottom:"3rem",marginTop:"20px" }}>
+        <div style={{ flex: 0.3 }} />
         <Form
           ref={formRef}
           name="normal_signup"
@@ -316,7 +316,7 @@ function RentSignup(props) {
             </div>
           </Form.Item>
         </Form>
-        <div style={{ flex: 0.2 }} />
+        <div style={{ flex: 0.3 }} />
       </div>
     </div>
   );
@@ -337,3 +337,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps,mapDispatchToProps)(RentSignup);
+

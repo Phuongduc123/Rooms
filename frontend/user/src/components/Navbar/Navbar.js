@@ -55,6 +55,9 @@ function Navbar(props) {
         {localStorage.getItem("Rooms_user_type")==="host"?<li className="option">
           <Link to="/host-profile">Hồ sơ</Link>
         </li>:<></>}
+        {/* {localStorage.getItem("Rooms_user_type")==="host"?<li className="option">
+          <Link to="/create-post">Tạo bài đăng</Link>
+        </li>:<></>} */}
         <li className="sign">
           <div className="signin-signup">
             <button className="signup-btn" onClick={()=>signup()}>Đăng ký</button>

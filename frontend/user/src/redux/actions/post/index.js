@@ -1,5 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { GET_HOST_POST_LIST, GET_HOST_POST_LIST_SUCCEED, GET_ROOM_DETAIL, GET_ROOM_DETAIL_SUCCEED } from "./action_type";
+import {
+  GET_HOST_POST_LIST,
+  GET_HOST_POST_LIST_SUCCEED,
+  GET_ROOM_DETAIL,
+  GET_ROOM_DETAIL_SUCCEED,
+  POST_POST,
+} from "./action_type";
 
 export default {
   getHostPostList: () => {
@@ -7,29 +13,72 @@ export default {
       type: GET_HOST_POST_LIST,
     };
   },
-  getHostPostListSucceed: (postList)=>{
+  getHostPostListSucceed: (postList) => {
     return {
-      type:GET_HOST_POST_LIST_SUCCEED,
-      params:{
-        postList
-      }
-    }
+      type: GET_HOST_POST_LIST_SUCCEED,
+      params: {
+        postList,
+      },
+    };
   },
-  getRoomDetail: (id)=>{
+  getRoomDetail: (id) => {
     return {
-      type:GET_ROOM_DETAIL,
-      params:{
-        id
-      }
-    }
+      type: GET_ROOM_DETAIL,
+      params: {
+        id,
+      },
+    };
   },
-  getRoomDetailSucceed: (data) =>{
+  getRoomDetailSucceed: (data) => {
     return {
-      type:GET_ROOM_DETAIL_SUCCEED,
-      params:{
-        data
-      }
-    }
+      type: GET_ROOM_DETAIL_SUCCEED,
+      params: {
+        data,
+      },
+    };
   },
-  
+  postPost: (
+    detailAddress,
+    describeAddress,
+    roomType,
+    numberOfRoom,
+    price,
+    rent_time,
+    square,
+    withOwner,
+    bathroomType,
+    heater,
+    kitchen,
+    airconditioner,
+    balcony,
+    water_price,
+    electricity_price,
+    other,
+    images,
+    expiredDate
+  ) => {
+    return {
+      type: POST_POST,
+      params: {
+        detailAddress,
+        describeAddress,
+        roomType,
+        numberOfRoom,
+        price,
+        rent_time,
+        square,
+        withOwner,
+        bathroomType,
+        heater,
+        kitchen,
+        airconditioner,
+        balcony,
+        water_price,
+        electricity_price,
+        other,
+        images,
+        expiredDate,
+      },
+    };
+  },
 };

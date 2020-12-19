@@ -54,7 +54,7 @@ function Signup(props) {
       <div className="scene">
         <img className="signupscene" src="./assets/loginscene.png" />
       </div>
-      <div className="form">
+      <div className="form" style={{width:"370px",height:"700px",marginTop:"-100px",marginRight:"60px",padding:"0px 20px"}}>
         <Form
           ref={formRef}
           name="normal_signup"

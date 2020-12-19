@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+/* eslint-disable no-undef */
+import React, { useEffect,createElement, useState } from "react";
 import "./RoomDetail.css";
-import { Input, Carousel, Avatar } from "antd";
+import { Input, Carousel, Avatar, Tooltip, Comment } from "antd";
+import moment from "moment";
 import {
   HeartOutlined,
   EditOutlined,
@@ -9,6 +11,10 @@ import {
   GlobalOutlined,
   HomeOutlined,
   UserOutlined,
+  DislikeOutlined,
+  LikeOutlined,
+  DislikeFilled,
+  LikeFilled,
 } from "@ant-design/icons";
 import { useLocation } from "react-router";
 import actions from "../../redux/actions/post/index";
@@ -16,6 +22,7 @@ import { connect } from "react-redux";
 import ShowMoreText from "react-show-more-text";
 import FbImageLibrary from "react-fb-image-grid";
 const { Search } = Input;
+const {TextArea} = Input;
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -43,7 +50,41 @@ function RoomDetail(props) {
 
   useEffect(() => {
     props.getRoomDetail(location?.state?.id);
+    console.log(props.roomDetail);
   }, []);
+
+  const handleRoomType = (type) => {
+    switch (type) {
+      case "pt":
+        return <div> phòng trọ</div>;
+      case "cc":
+        return <div> chung cư mini</div>;
+      case "n":
+        return <div> nhà nguyên căn</div>;
+      case "ccnc":
+        return <div> chung cư nguyên căn</div>;
+    }
+  };
+
+  const handleBathRoom = (type) => {
+    switch (type) {
+      case "kk":
+        return <div>khép kín</div>;
+      case "c":
+        return <div>chung</div>;
+    }
+  };
+
+  const handleKitchen = (type) => {
+    switch (type) {
+      case "r":
+        return <div>khu bếp riêng</div>;
+      case "c":
+        return <div>khu bếp chung</div>;
+      case "k":
+        return <div>không nấu ăn</div>;
+    }
+  };
 
   return (
     <div className="RoomDetail">
@@ -54,7 +95,7 @@ function RoomDetail(props) {
         <div style={{ display: "flex", marginTop: "30px" }}>
           <div className="line" />
           <div style={{ flexDirection: "column", flex: 1 }}>
-            <div className="place">AnTamNhat - số 11 Phú Kiều</div>
+            <div className="place">{props.roomDetail.post.detailAddress}</div>
             <div style={{ display: "flex" }}>
               <div style={{ flex: 10, fontSize: "12px", color: "grey" }}>
                 Còn phòng
@@ -65,8 +106,10 @@ function RoomDetail(props) {
                   src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                 />
                 <div>
-                  <div>Huy le</div>
-                  <div style={{ fontSize: "10px", color: "grey" }}>Hà Nội</div>
+                  <div>{props.roomDetail.hostName}</div>
+                  <div style={{ fontSize: "10px", color: "grey" }}>
+                    {props.roomDetail.post.detailAddress}
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,32 +138,55 @@ function RoomDetail(props) {
               />
             </div>
             <div className="information-table" style={{ flex: 1 }}>
-              <div className="address-name">AnTamNhat - số 11 Phú Kiều</div>
+              <div className="address-name">
+                {props.roomDetail.post.detailAddress}
+              </div>
               <div className="post-date-detail">Ngày đăng: 12/11/2000</div>
               <div className="have-room">Còn phòng</div>
-              <div className="price-detail">3.500.000đ / <span style={{fontSize:"17px",color:"grey"}}>tháng</span></div>
-              <div style={{display:"flex",marginTop:"10px"}}>
-                <GlobalOutlined style={{color:"brown"}}/>
-                <div style={{marginLeft:"10px",color:"black"}}>Phúc Diễn, Bắc Từ Liêm, Hà Nội</div>
+              <div className="price-detail">
+                {props.roomDetail.post.price} /{" "}
+                <span style={{ fontSize: "17px", color: "grey" }}>tháng</span>
               </div>
-              <div style={{display:"flex"}}>
-                <HomeOutlined style={{color:"brown"}}/>
-                <div style={{marginLeft:"10px",color:"black"}}>Chung cư mini</div>
+              <div style={{ display: "flex", marginTop: "10px" }}>
+                <GlobalOutlined style={{ color: "brown" }} />
+                <div style={{ marginLeft: "10px", color: "black" }}>
+                  {props.roomDetail.post.describeAddress}
+                </div>
               </div>
-              <div style={{display:"flex"}}>
-                <UserOutlined style={{color:"black"}}/>
-                <div style={{marginLeft:"10px",color:"black"}}>05 người ở tối đa</div>
+              <div style={{ display: "flex" }}>
+                <HomeOutlined style={{ color: "brown" }} />
+                <div style={{ marginLeft: "10px", color: "black" }}>
+                  {handleRoomType(props.roomDetail.post.roomType)}
+                </div>
               </div>
-              <div style={{color:"black",marginTop:"10px"}}>Đánh giá: <span style={{color:"red",fontSize:"17px"}}>4.9</span> /5 (19 đánh giá)</div>
+              <div style={{ display: "flex" }}>
+                <UserOutlined style={{ color: "black" }} />
+                <div style={{ marginLeft: "10px", color: "black" }}>
+                  {props.roomDetail.post.numberOfRoom} người ở tối đa
+                </div>
+              </div>
+              <div style={{ color: "black", marginTop: "10px" }}>
+                Đánh giá:{" "}
+                <span style={{ color: "red", fontSize: "17px" }}>4.9</span> /5
+                (19 đánh giá)
+              </div>
               <div className="contact">
-                <div style={{color:"black",fontSize:"13px",marginTop:"10px"}}>Liên hệ:</div>
-                  <div>Tên chủ nhà: Lê Xuân Huy</div>
-                  <div>Hotline: 121535612</div>
-                  <div>Email: huy@gmail.com</div>
+                <div
+                  style={{
+                    color: "black",
+                    fontSize: "13px",
+                    marginTop: "10px",
+                  }}
+                >
+                  Liên hệ:
+                </div>
+                <div>{`Tên chủ nhà: ${props.roomDetail.hostName}`}</div>
+                <div>{`Hotline: ${props.roomDetail.phoneNumber}`}</div>
+                <div>Email: huy@gmail.com</div>
               </div>
               <div
                 className="operations"
-                style={{ display: "flex", marginTop: "20px",color:"black" }}
+                style={{ display: "flex", marginTop: "20px", color: "black" }}
               >
                 <div style={{ flex: 1 }}>
                   <HeartOutlined
@@ -162,8 +228,7 @@ function RoomDetail(props) {
           <div className="location">
             <div style={{ fontSize: "20px" }}>Địa điểm</div>
             <div style={{ color: "grey" }}>
-              Số nhà 11, ngõ 3, TDP số 12, phường Phúc Diễn, quận Bắc Từ Liêm,
-              thành phố Hà Nội{" "}
+              {props.roomDetail.post.detailAddress}
             </div>
           </div>
           <div
@@ -175,22 +240,26 @@ function RoomDetail(props) {
               <div
                 style={{
                   color: "grey",
-                  wordBreak: "break-all",
-                  width: windowDimensions.width / 7,
+                  width: windowDimensions.width / 6,
                 }}
               >
                 <div style={{ display: "flex" }}>
-                  <ShowMoreText
-                    expanded={false}
-                    width={300}
-                    lines={3}
-                    more="Xem thêm"
-                    less="Thu lại"
-                  >
-                    adfhsdkajfkdsjfklajflkdkaljflkadsf
-                    fsdaklfjaksldjfklasdjflkasdjflasdkjfklas
-                    dasflkjsdalkfjkalsdjfkal fasdklfjkasldjflkasdjklfdasdasd
-                  </ShowMoreText>
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      {`Loại phòng:`}
+                      {handleRoomType(props.roomDetail.post.roomType)}
+                    </div>
+                    <div style={{ display: "flex" }}>{`Ban công: ${
+                      props.roomDetail.post.balcony === true ? "có" : "không"
+                    }`}</div>
+                    <div style={{ display: "flex" }}>
+                      {`Nhà tắm: `}
+                      {handleBathRoom(props.roomDetail.post.bathroomType)}
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      {`Bếp: `} {handleKitchen(props.roomDetail.post.kitchen)}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,21 +269,29 @@ function RoomDetail(props) {
                 style={{
                   color: "grey",
                   wordBreak: "break-all",
-                  width: windowDimensions.width / 7,
+                  width: windowDimensions.width / 6,
                 }}
               >
                 <ShowMoreText
                   expanded={false}
-                  width={300}
+                  width={400}
                   lines={3}
                   more="Xem thêm"
                   less="Thu lại"
                 >
-                  adfhsdkajfkdsjfklajflkdkaljflkadsf
-                  fsdaklfjaksldjfklasdjflkasdjflasdkjfklas
-                  dasflkjsdalkfjkalsdjfkal
-                  fasdklfjkasldjflkasdjklfdasdasddsadsadas dsadsadasdas
-                  dsadsadasdas dasdasdasd
+                  bắt cóc, hãm hiếp và sát hại nhiều phụ nữ cũng như trẻ em gái
+                  trong giai đoạn những năm 1970, thậm chí trước đó nữa. Sau hơn
+                  một thập kỷ chối tội, trước khi bị hành quyết vào năm 1989,
+                  anh đã thú nhận mình là thủ phạm của 30 vụ giết người tại 7
+                  bang từ năm 1974 đến năm 1978. Số nạn nhân thực sự vẫn là điều
+                  bí ẩn và có thể còn cao hơn con số 30. Bundy được đánh giá là
+                  một người đẹp trai và lôi cuốn. Đây cũng là những điểm mà anh
+                  tận dụng nhằm chiếm lòng tin của các nạn nhân và cả xã hội.
+                  Anh thường tiếp cận mục tiêu ở những nơi công cộng, giả vờ bị
+                  thương hoặc tàn tật hay đóng giả một nhân vật có thẩm quyền,
+                  trước khi đánh họ bất tỉnh rồi đưa đến địa điểm vắng vẻ để
+                  cưỡng hiếp và bóp cổ. Đôi khi anh quay lại hiện trường thứ cấp
+                  của các vụ án, chải
                 </ShowMoreText>
               </div>
             </div>
@@ -224,19 +301,29 @@ function RoomDetail(props) {
                 style={{
                   color: "grey",
                   wordBreak: "break-all",
-                  width: windowDimensions.width / 7,
+                  width: windowDimensions.width / 6,
                 }}
               >
                 <ShowMoreText
                   expanded={false}
-                  width={300}
+                  width={400}
                   lines={3}
                   more="Xem thêm"
                   less="Thu lại"
                 >
-                  adfhsdkajfkdsjfklajflkdkaljflkadsf
-                  fsdaklfjaksldjfklasdjflkasdjflasdkjfklas
-                  dasflkjsdalkfjkalsdjfkal fasdklfjkasldjflkasdjklfdasdasd
+                  bắt cóc, hãm hiếp và sát hại nhiều phụ nữ cũng như trẻ em gái
+                  trong giai đoạn những năm 1970, thậm chí trước đó nữa. Sau hơn
+                  một thập kỷ chối tội, trước khi bị hành quyết vào năm 1989,
+                  anh đã thú nhận mình là thủ phạm của 30 vụ giết người tại 7
+                  bang từ năm 1974 đến năm 1978. Số nạn nhân thực sự vẫn là điều
+                  bí ẩn và có thể còn cao hơn con số 30. Bundy được đánh giá là
+                  một người đẹp trai và lôi cuốn. Đây cũng là những điểm mà anh
+                  tận dụng nhằm chiếm lòng tin của các nạn nhân và cả xã hội.
+                  Anh thường tiếp cận mục tiêu ở những nơi công cộng, giả vờ bị
+                  thương hoặc tàn tật hay đóng giả một nhân vật có thẩm quyền,
+                  trước khi đánh họ bất tỉnh rồi đưa đến địa điểm vắng vẻ để
+                  cưỡng hiếp và bóp cổ. Đôi khi anh quay lại hiện trường thứ cấp
+                  của các vụ án, chải
                 </ShowMoreText>
               </div>
             </div>
@@ -251,16 +338,39 @@ function RoomDetail(props) {
                 more="Xem thêm"
                 less="Thu lại"
               >
-                dasdsalkdsakdsaldksal;dsa;ldklsaldksa;ldklsaldsaxms
-                dsadlkjsaldksan dsakdjaskldjsakl d sakdjsakldjsa dsadksajdas
-                dsajdnsjanda daslkdsakldjas dsadljaskjdsal daslkdjsakldjsalkd
-                daslkdjsakjdaslk daslkdjsa dklsajdklsajd daslkdjksaljd
-                dsalkjdlsakdjdasdasdassssssssssssssssssssssssssssssssssssssssssssssssssss
-                ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-                sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-                sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                bắt cóc, hãm hiếp và sát hại nhiều phụ nữ cũng như trẻ em gái
+                trong giai đoạn những năm 1970, thậm chí trước đó nữa. Sau hơn
+                một thập kỷ chối tội, trước khi bị hành quyết vào năm 1989, anh
+                đã thú nhận mình là thủ phạm của 30 vụ giết người tại 7 bang từ
+                năm 1974 đến năm 1978. Số nạn nhân thực sự vẫn là điều bí ẩn và
+                có thể còn cao hơn con số 30. Bundy được đánh giá là một người
+                đẹp trai và lôi cuốn. Đây cũng là những điểm mà anh tận dụng
+                nhằm chiếm lòng tin của các nạn nhân và cả xã hội. Anh thường
+                tiếp cận mục tiêu ở những nơi công cộng, giả vờ bị thương hoặc
+                tàn tật hay đóng giả một nhân vật có thẩm quyền, trước khi đánh
+                họ bất tỉnh rồi đưa đến địa điểm vắng vẻ để cưỡng hiếp và bóp
+                cổ. Đôi khi anh quay lại hiện trường thứ cấp của các vụ án, chải
               </ShowMoreText>
             </div>
+          </div>
+          <div className="comments">
+            <div style={{ color: "black", marginTop: "30px",fontSize:"20px" }}>
+              Đánh giá:{" "}
+              <span style={{ color: "red", fontSize: "20px" }}>4.9</span> /5 (19
+              đánh giá)
+            </div>
+            <div style={{display:"flex"}}>
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+              <TextArea rows={4}/>
+            </div>
+            <CommentAntd />
+            <CommentAntd />
+            <CommentAntd />
+            <CommentAntd />
+            <CommentAntd />
           </div>
         </div>
 
@@ -282,7 +392,9 @@ function RoomDetail(props) {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    roomDetail: state.post.roomDetail,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -294,3 +406,67 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomDetail);
+
+//comment
+function CommentAntd(props) {
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [action, setAction] = useState(null);
+
+  const like = () => {
+    setLikes(1);
+    setDislikes(0);
+    setAction('liked');
+  };
+
+  const dislike = () => {
+    setLikes(0);
+    setDislikes(1);
+    setAction('disliked');
+  };
+
+  const actions = [
+    <Tooltip key="comment-basic-like" title="Like">
+      <span onClick={like}>
+        {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
+        <span className="comment-action">{likes}</span>
+      </span>
+    </Tooltip>,
+    <Tooltip key="comment-basic-dislike" title="Dislike">
+      <span onClick={dislike}>
+        {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
+        <span className="comment-action">{dislikes}</span>
+      </span>
+    </Tooltip>,
+    <span key="comment-basic-reply-to">Reply to</span>,
+  ];
+
+  return (
+    <div className="Comment">
+      <Comment
+        actions={actions}
+        author={<a>Han Solo</a>}
+        avatar={
+          <Avatar
+            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            alt="Han Solo"
+          />
+        }
+        content={
+          <p>
+            We supply a series of design principles, practical patterns and high
+            quality design resources (Sketch and Axure), to help people create
+            their product prototypes beautifully and efficiently.
+          </p>
+        }
+        datetime={
+          <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
+            <span>{moment().fromNow()}</span>
+          </Tooltip>
+        }
+      />
+    </div>
+  );
+}
+
+
