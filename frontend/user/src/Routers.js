@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Chat from "./components/Chat/Chat";
 import CreatePost from "./components/CreatePost/CreatePost";
+import Favorite from "./components/Favorite/Favorite";
 import Home from "./components/Home/Home";
 import HostProfile from "./components/HostProfile/HostProfile";
 import Login from "./components/Login/Login";
@@ -14,6 +15,10 @@ import RentSignup from "./components/RentSignup/RentSignup";
 import RoomDetail from "./components/RoomDetail/RoomDetail";
 import Signup from "./components/Signup/Signup";
 import TypePeople from "./components/TypePeople/TypePeople";
+import RoomFilter from "./components/RoomFilter/RoomFilter";
+import HostList from "./components/Admin/HostList";
+import HostListConfirmed from "./components/Admin/HostListConfirmed";
+import UpdatePost from "./components/UpdatePost/UpdatePost";
 
 function Routers() {
   const [logged,setLogged]= useState("false")
@@ -61,6 +66,25 @@ function Routers() {
         <Route path="/create-post">
           <CreatePost/>
         </Route>
+        <Route path="/favorite">
+          <Favorite/>
+        </Route>
+        <Route path="/search">
+          <RoomFilter/>
+        </Route>
+        <Route path="/update-room-detail">
+          <UpdatePost/>
+        </Route>
+
+
+        {/* Admin */}
+        <Route path="/admin/list-host">
+          <HostList/>
+        </Route>
+        <Route path="/admin/list-host-confirmed">
+          <HostListConfirmed/>  
+        </Route>
+        
       </Switch>
       
     </div>

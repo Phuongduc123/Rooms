@@ -5,19 +5,8 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import CardFollowPlace from "../CardFollowPlace/CardFollowPlace";
 import PlaceCard from "../Card/PlaceCard";
 const { Search } = Input;
+const { TextArea } = Input;
 const { Option } = Select;
-
-const contentStyle = {
-  height: "260px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#364d79",
-};
-
-function onChange(a, b, c) {
-  console.log(a, b, c);
-}
 
 function RoomFilter() {
   return (
@@ -59,31 +48,22 @@ function RoomFilter() {
                   className="location-filter"
                   style={{ display: "flex", color: "rgba(0, 0, 0, 0.45)" }}
                 >
-                  <div>Thành phố </div>
-                  <Select
-                    defaultValue="Hà Nội"
-                    style={{ width: 100, marginLeft: "10px" }}
-                  >
-                    <Option value="Sài Gòn">Sài Gòn</Option>
-                    <Option value="Hà Nội">Hà Nội</Option>
-                  </Select>
-                  <div>Quận</div>
-                  <Select
-                    defaultValue="Hà Nội"
-                    style={{ width: 100, marginLeft: "10px" }}
-                  >
-                    <Option value="Sài Gòn">Sài Gòn</Option>
-                    <Option value="Hà Nội">Hà Nội</Option>
-                  </Select>
-                  <div>Phường</div>
-                  <Select
-                    defaultValue="Hà Nội"
-                    style={{ width: 100, marginLeft: "10px" }}
-                  >
-                    <Option value="Sài Gòn">Sài Gòn</Option>
-                    <Option value="Hà Nội">Hà Nội</Option>
-                  </Select>
+                  <Input placeholder="Địa điểm" />
                 </div>
+
+                <div className="detail address" style={{marginTop:"10px"}}>
+                  <div className="text-password">Mô tả địa chỉ</div>
+                  <TextArea
+                    rows={4}
+                    style={{
+                      borderRadius: "5px",
+                    }}
+                    // value={props.describeAddress}
+                    placeholder="Mô tả địa chỉ"
+                    onChange={(value) => {}}
+                  />
+                </div>
+
                 <div style={{ display: "flex" }}>
                   <div style={{ flex: 4 }} />
                   <div className="search-in-filter" style={{ flex: 1 }}>
@@ -98,8 +78,8 @@ function RoomFilter() {
       </div>
 
       {/* rooms are filtered */}
-      <RowPlaceCard/>
-      <RowPlaceCard/>
+      {/* <RowPlaceCard/>
+      <RowPlaceCard/> */}
 
       {/* footer */}
       <div style={{ display: "flex" }}>
@@ -117,28 +97,35 @@ function RoomFilter() {
 
 export default RoomFilter;
 
-function RowPlaceCard(){
+function RowPlaceCard() {
   return (
-    <div style={{display:"flex",paddingLeft: "7rem", paddingRight: "5rem",marginTop:"20px"}}>
-        <div style={{flex:1}}>
-          <PlaceCard/>
-        </div>
-        <div style={{flex:0.2}}/>
-        <div style={{flex:1}}>
-          <PlaceCard/>
-        </div>
-        <div style={{flex:0.2}}/>
-        <div style={{flex:1}}>
-          <PlaceCard/>
-        </div>
-        <div style={{flex:0.2}}/>
-        <div style={{flex:1}}>
-          <PlaceCard/>
-        </div>
-        <div style={{flex:0.2}}/>
-        <div style={{flex:1}}>
-          <PlaceCard/>
-        </div>
+    <div
+      style={{
+        display: "flex",
+        paddingLeft: "7rem",
+        paddingRight: "5rem",
+        marginTop: "20px",
+      }}
+    >
+      <div style={{ flex: 1 }}>
+        <PlaceCard />
+      </div>
+      <div style={{ flex: 0.2 }} />
+      <div style={{ flex: 1 }}>
+        <PlaceCard />
+      </div>
+      <div style={{ flex: 0.2 }} />
+      <div style={{ flex: 1 }}>
+        <PlaceCard />
+      </div>
+      <div style={{ flex: 0.2 }} />
+      <div style={{ flex: 1 }}>
+        <PlaceCard />
+      </div>
+      <div style={{ flex: 0.2 }} />
+      <div style={{ flex: 1 }}>
+        <PlaceCard />
+      </div>
     </div>
-  )
+  );
 }

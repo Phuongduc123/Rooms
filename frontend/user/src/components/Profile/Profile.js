@@ -4,6 +4,7 @@ import { Form, Input, Button, Checkbox, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import SideMenu from "../SideMenu/SideMenu.js";
 import actions from "../../redux/actions/profile/index";
+import {Link} from "react-router-dom"
 import { connect } from "react-redux";
 const { TextArea } = Input;
 
@@ -41,13 +42,13 @@ function Profile(props) {
         <div style={{ flex: 1 }} />
         <ul className="list-profile" style={{ flex: 14 }}>
           <li className="option">
-            <a>Tài khoản</a>
+            <Link to="/profile">Tài khoản</Link>
           </li>
           <li className="option" style={{ opacity: "0.5" }}>
-            <a>Yêu thích</a>
+            <Link to="/favorite">Yêu thích</Link>
           </li>
           <li className="option" style={{ opacity: "0.5" }}>
-            <a>Thông báo</a>
+            <Link to="/notifacation">Thông báo</Link>
           </li>
         </ul>
       </div>
@@ -120,61 +121,6 @@ function Profile(props) {
                 }}
               />
             </Form.Item>
-            {/* <Form.Item>
-              <div className="text-password">Ngày sinh</div>
-              <Input
-                style={{
-                  borderRadius: "5px",
-                }}
-                placeholder="Ngày sinh"
-                onChange={(value) => {
-                  console.log(value);
-                }}
-              />
-            </Form.Item> */}
-            {/* <Form.Item
-              name="sex"
-            >
-              <div className="text-password">Giới tính</div>
-              <Radio.Group
-                style={{
-                  marginLeft: "20px",
-                  marginTop: "10px",
-                  fontFamily: "Montserrat",
-                }}
-              >
-                <Radio
-                  style={{ marginLeft: "20px", fontFamily: "Montserrat" }}
-                  value={1}
-                >
-                  Nam
-                </Radio>
-                <Radio
-                  style={{ marginLeft: "20px", fontFamily: "Montserrat" }}
-                  value={2}
-                >
-                  Nữ
-                </Radio>
-                <Radio
-                  style={{ marginLeft: "20px", fontFamily: "Montserrat" }}
-                  value={3}
-                >
-                  Khác
-                </Radio>
-              </Radio.Group>
-            </Form.Item> */}
-            {/* <Form.Item>
-              <div className="text-password">Địa chỉ</div>
-              <Input
-                style={{
-                  borderRadius: "5px",
-                }}
-                placeholder="Địa chỉ"
-                onChange={(value) => {
-                  console.log(value);
-                }}
-              />
-            </Form.Item> */}
             <Form.Item>
               <div className="text-password">Địa chỉ yêu thích</div>
               <TextArea

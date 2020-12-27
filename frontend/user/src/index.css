@@ -23,3 +23,8 @@ code {
   font-family: "Ubuntu";
   margin-top: 10px;
 }
+
+
+.ant-menu{
+  height:100vh;
+}

@@ -19,8 +19,10 @@ function Login(props) {
 
   //hook
   useEffect(() => {
-    if(logged===true)
+    if(logged===true){
       history.push("/home");
+    }
+      
   }, [logged]);
 
   const handleLogin = () => {

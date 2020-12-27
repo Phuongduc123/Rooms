@@ -17,9 +17,6 @@ function ManagePost(props) {
   useEffect(() => {
     props.getHostPostList();
   }, []);
-  useEffect(() => {
-    // handlePostListIsntConfirmed();
-  }, [props.postListIsntConfirmed]);
 
   //function
   const renderPostListIsntConfirmed = () => {
@@ -35,11 +32,10 @@ function ManagePost(props) {
           }}
         >
           {props.postListIsntConfirmed.map((post, index) => {
-            let image=handleImagePost(post.images)
             if (index - i * 3 < 3 && index - i * 3 >= 0) {
               return (
                 <div key={index} style={{ margin: "10px" }}>
-                  <PlaceCard image={image} hostName={post.hostName} id={post.id} post={post}/>
+                  <PlaceCard image={post.images[0]} hostName={post.hostName} id={post.id} post={post}/>
                 </div>
               );
             }
@@ -53,15 +49,6 @@ function ManagePost(props) {
     });
   };
 
-  const handleImagePost = (images) =>{
-    for(let i=0;i<images.length;i++){
-      if(images[i]===","){
-        return images.slice(0,i)
-      }else if(i===images.length-1){
-        return images
-      }
-    }
-  }
 
   return (
     <div className="Profile">

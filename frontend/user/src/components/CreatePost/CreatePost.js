@@ -6,6 +6,8 @@ import actions from "../../redux/actions/post/index";
 import { connect } from "react-redux";
 import SelectionProfile from "../SelectionProfile/SelectionProfile";
 import Modal from "antd/lib/modal/Modal";
+import {createNotification} from "../../utils/notification";
+import {NotificationManager} from 'react-notifications';
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -33,8 +35,8 @@ function CreatePost(props) {
   const [water, setWater] = useState(0);
   const [heater, setHeater] = useState("True");
   const [expiredDate, setExpiredDate] = useState(7);
-  const [images, setImages] = useState("dsadsad");
-  const [other, setOther] = useState("dsada");
+  const [images, setImages] = useState([]);
+  const [other, setOther] = useState("");
 
   //hook
 
@@ -267,6 +269,7 @@ function Step1(props) {
           <div className="room-type" style={{ flex: 1 }}>
             <div>Loại phòng</div>
             <Select
+              
               value={props.roomType}
               onChange={(value) => {
                 props.setRoomType(value);
@@ -386,6 +389,20 @@ function Step1(props) {
           </div>
           <div style={{ flex: 0.5 }} />
           <div style={{ flex: 1 }}>
+            <div className="balcony">Ban công</div>
+            <Select
+              value={props.balcony}
+              onChange={(value) => {
+                props.setBalcony(value);
+              }}
+              style={{ width: 200 }}
+            >
+              <Option value="True">Có</Option>
+              <Option value="False">Không</Option>
+            </Select>
+          </div>
+          <div style={{ flex: 0.5 }} />
+          <div style={{ flex: 1 }}>
             <div className="electric">Tiền nước </div>
             <Input
               style={{
@@ -407,20 +424,7 @@ function Step1(props) {
               vnđ/số
             </div>
           </div>
-          <div style={{ flex: 0.5 }} />
-          <div style={{ flex: 1 }}>
-            <div className="balcony">Ban công</div>
-            <Select
-              value={props.balcony}
-              onChange={(value) => {
-                props.setBalcony(value);
-              }}
-              style={{ width: 200 }}
-            >
-              <Option value="True">Có</Option>
-              <Option value="False">Không</Option>
-            </Select>
-          </div>
+          
         </div>
       </Form.Item>
 
@@ -495,16 +499,13 @@ function Step1(props) {
 
 //step 2
 function Step2(props) {
-  const [fileList, setFileList] = useState([]);
   const [visible, setVisible] = useState(false);
-
+  const [fileList,setFileList] =useState([]);
   //hook
-  useEffect(() => {
-    // console.log(fileList[0]?.thumbUrl)
-  }, [fileList]);
 
+  //function
   const onChange = (info) => {
-    setFileList(info.fileList);
+    setFileList(info.fileList)
   };
 
   const onPreview = async (file) => {
@@ -571,7 +572,18 @@ function Step2(props) {
   };
 
   const handleOpenModal = () => {
-    setVisible(true);
+    if(fileList.length>=5){
+      setVisible(true);
+      let tempImages=[]
+      fileList.map((image)=>{
+        tempImages.push(image.thumbUrl)
+      })
+
+      props.setImages(tempImages)
+    }else{
+      NotificationManager.error('Phải có tối thiểu 5 ảnh', 'Error');
+    }
+    
   };
 
   return (
@@ -588,7 +600,6 @@ function Step2(props) {
           <div className="Mô tả khác">Thêm ảnh</div>
           <ImgCrop rotate>
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               listType="picture-card"
               fileList={fileList}
               onChange={onChange}
@@ -645,6 +656,7 @@ function Step2(props) {
       >
         <div>Bạn có chắc chắn muốn đăng bài không</div>
       </Modal>
+      
     </div>
   );
 }

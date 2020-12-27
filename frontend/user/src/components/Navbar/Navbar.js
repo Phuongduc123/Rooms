@@ -3,6 +3,8 @@ import "./Navbar.css";
 import { Input,Layout, Popover } from "antd";
 import {Link, useHistory} from 'react-router-dom'
 import { withRouter } from "react-router-dom";
+import actions from "../../redux/actions/post/index";
+import { connect } from "react-redux";
 import Avatar from "antd/lib/avatar/avatar";
 const {Header,Footer,Sider,Content}=Layout
 const { Search } = Input;
@@ -10,13 +12,20 @@ const { Search } = Input;
 function Navbar(props) {
   let history=useHistory();
   //state
+  const [searchInput,setSearchInput] = useState("")
+  const [userType,setUserType] = useState("");
+
+  //hook
+  useEffect(()=>{
+    setUserType(localStorage.getItem("Rooms_user_type"))
+  },[props.logged])
 
   //variable 
   const contentOverAvatar = (
     <div>
-      <Link style={{color:"black"}} to="/profile"><p>Phuong Duc</p></Link>
-      <p>Content</p>
-      <Link  style={{color:"black",cursor:"pointer"}} to="/login" onClick={()=>logout()}>Đăng xuất</Link>
+      <Link style={{color:"#1890ff"}} to="/profile"><p>{localStorage.getItem("Rooms_username")}</p></Link>
+      {localStorage.getItem("Rooms_user_type")==="host"?<Link className="popover-elm" style={{color:"black"}} to="/create-post"><p>Đăng bài</p></Link>:<></>}
+      <Link className="popover-elm"  style={{color:"black",cursor:"pointer"}} to="/login" onClick={()=>logout()}>Đăng xuất</Link>
     </div>
   );
 
@@ -27,6 +36,7 @@ function Navbar(props) {
   const logout=()=>{
     localStorage.removeItem("Rooms_logged")
     localStorage.removeItem("Rooms_token")
+    localStorage.setItem("Rooms_user_type","")
   }
 
   return (
@@ -40,24 +50,26 @@ function Navbar(props) {
         </li>
         <li className="">
           <div className="search-bar">
-            <Search className="search" placeholder="Tìm kiếm"/>
+            <Search className="search" placeholder="Tìm kiếm" value={searchInput} onChange={(value)=>setSearchInput(value.target.value)} onPressEnter={()=>{
+              props.searchPost(searchInput)
+            }}/>
           </div>
         </li>
         <li className="option">
           <Link to="/home">Trang chủ</Link>
         </li>
         <li className="option">
-          <Link to="search">Tìm kiếm</Link>
+          <Link to="/search">Tìm kiếm</Link>
         </li>
-        {localStorage.getItem("Rooms_user_type")!=="host"?<li className="option">
+        {localStorage.getItem("Rooms_user_type")==="renter"?<li className="option">
           <Link to="/profile">Hồ sơ</Link>
         </li>:<></>}
         {localStorage.getItem("Rooms_user_type")==="host"?<li className="option">
           <Link to="/host-profile">Hồ sơ</Link>
         </li>:<></>}
-        {/* {localStorage.getItem("Rooms_user_type")==="host"?<li className="option">
-          <Link to="/create-post">Tạo bài đăng</Link>
-        </li>:<></>} */}
+        {localStorage.getItem("Rooms_user_type")===""?<li className="option">
+          <Link to="/admin/list-host">Admin</Link>
+        </li>:<></>}
         <li className="sign">
           <div className="signin-signup">
             <button className="signup-btn" onClick={()=>signup()}>Đăng ký</button>
@@ -77,4 +89,18 @@ function Navbar(props) {
   
 }
 
-export default withRouter(Navbar);
+const mapStateToProps = (state) => {
+  return {
+    logged:state.login.logged
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    searchPost:(searching)=>{
+      dispatch(actions.searchPost(searching))
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -8,15 +8,11 @@ import ProfileChangePassword from "./components/ProfileChangePassword/ProfileCha
 import TypePeople from "./components/TypePeople/TypePeople";
 import RoomFilter from "./components/RoomFilter/RoomFilter";
 import { Card, Input, Layout, Affix } from "antd";
-import RentSignup from "./components/RentSignup/RentSignup";
-import Profile from "./components/Profile/Profile";
-import ManageAccount from "./components/ManageAccount/ManageAccount";
-import Home from "./components/Home/Home";
-import PlaceCard from "./components/Card/PlaceCard";
-import CardFollowPlace from "./components/CardFollowPlace/CardFollowPlace";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 import Routers from "./Routers";
 import Chat from "./components/Chat/Chat";
 import CreatePost from "./components/CreatePost/CreatePost";
+import Aside from "./components/Admin/Aside";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -43,12 +39,14 @@ function App(props) {
       {/* <RoomFilter/> */}
       {/* <RoomDetail/> */}
       {/* <CreatePost/> */}
+      {/* <Aside/> */}
 
       {/* message */}
 
       <div style={{ position: "fixed",bottom:"0px", right: "10px", zIndex: 5 }}>
           <Chat />
       </div>
+      <NotificationContainer/>
     </div>
   );
 }

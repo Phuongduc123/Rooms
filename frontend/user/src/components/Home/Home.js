@@ -1,9 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Home.css";
-import { Form, Input, Button, Carousel, Affix } from "antd";
+import { Form, Input, Button, Carousel, Affix, Pagination } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import CardFollowPlace from "../CardFollowPlace/CardFollowPlace";
-import Chat from "../Chat/Chat";
+import actions from "../../redux/actions/post/index";
+import { connect } from "react-redux";
+import { getPostHomepage, getSearchPost } from "../../request";
+import PlaceCard from "../Card/PlaceCard";
 const { Search } = Input;
 
 const contentStyle = {
@@ -18,10 +21,96 @@ function onChange(a, b, c) {
   console.log(a, b, c);
 }
 
-function Home() {
+function Home(props) {
+  //state
+  const [postHaNoi, setPostHaNoi] = useState([]);
+  const [postHCM, setPostHCM] = useState([]);
+  const [postDaNang, setPostDaNang] = useState([]);
+  const [startHaNoi, setStartHaNoi] = useState(0);
+  const [endHaNoi, setEndHaNoi] = useState(5);
+  const [startHCM, setStartHCM] = useState(0);
+  const [endHCM, setEndHCM] = useState(5);
+  const [startDaNang, setStartDaNang] = useState(0);
+  const [endDaNang, setEndDaNang] = useState(5);
+  const [searchPost, setSearchPost] = useState([]);
+  const [startSearchPost, setStartSearchPost] = useState(0);
+  const [endSearchPost, setEndSearchPost] = useState(5);
+
+  //hook
+  useEffect(() => {
+    getSearchPost(
+      {
+        searching: props.searching,
+        start: startSearchPost,
+        end: endSearchPost,
+      },
+      setSearchPost
+    );
+  }, [props.searching, startSearchPost, endSearchPost]);
+
+  // HaNoi
+  useEffect(() => {
+    getPostHomepage(
+      { location: "Hà Nội", start: startHaNoi, end: endHaNoi },
+      setPostHaNoi
+    );
+  }, [startHaNoi, endHaNoi]);
+  // HCM
+  useEffect(() => {
+    getPostHomepage(
+      { location: "Hồ Chí Minh", start: startHCM, end: endHCM },
+      setPostHCM
+    );
+  }, [startHCM, endHCM]);
+  //Da Nang
+  useEffect(() => {
+    getPostHomepage(
+      { location: "Đà Nẵng", start: startDaNang, end: endDaNang },
+      setPostDaNang
+    );
+  }, [startDaNang, endDaNang]);
+
+  //function
+  const renderSearchPostList = () => {
+    let numberOfRowItem = Math.ceil(searchPost.length / 5) + 1; //number of rows
+    let contentRows = []; // content of 1 row
+    for (let i = 0; i < numberOfRowItem; i++) {
+      contentRows.push(
+        <div
+          style={{
+            display: "flex",
+            whiteSpace: "break-spaces",
+            justifyContent: "center",
+          }}
+        >
+          {searchPost.map((post, index) => {
+            if (index - i * 5 < 5 && index - i * 5 >= 0) {
+              return (
+                <div key={index} style={{ margin: "10px" }}>
+                  <PlaceCard
+                    image={post.images[0]}
+                    hostName={post.hostName}
+                    id={post.id}
+                    post={post}
+                  />
+                </div>
+              );
+            }
+          })}
+        </div>
+      );
+    }
+
+    return contentRows.map((contentRow) => {
+      return contentRow;
+    });
+  };
+
   return (
     <div className="Home">
-      <div style={{marginTop:"10px",paddingLeft:"5rem",paddingRight:"5rem"}}>
+      <div
+        style={{ marginTop: "10px", paddingLeft: "5rem", paddingRight: "5rem" }}
+      >
         <Carousel afterChange={onChange}>
           <div>
             <h3 style={contentStyle}>1</h3>
@@ -37,9 +126,47 @@ function Home() {
           </div>
         </Carousel>
         <div>
-          <CardFollowPlace/>
-          <CardFollowPlace/>
-          <CardFollowPlace/>
+          {props.searching !== "" ? (
+            <div className="sidebar-div" style={{ flex: 7.8, padding: "30px" }}>
+              <Form name="normal_signup" initialValues={{ remember: true }}>
+                <div
+                  style={{ fontSize: "20px" }}
+                >{`Kết quả tìm kiếm cho từ khóa: ${props.searching}`}</div>
+                {renderSearchPostList()}
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Pagination
+                    defaultCurrent={1}
+                    defaultPageSize={5} // 5 default size of page
+                    onChange={(value) => {
+                      setStartSearchPost((value - 1) * 5);
+                      setEndSearchPost(value * 5);
+                    }}
+                    total={100} //total number of card data available
+                  />
+                </div>
+              </Form>
+            </div>
+          ) : (
+            <></>
+          )}
+          <CardFollowPlace
+            posts={postHaNoi}
+            setStart={setStartHaNoi}
+            location={"Hà Nội"}
+            setEnd={setEndHaNoi}
+          />
+          <CardFollowPlace
+            posts={postHCM}
+            setStart={setStartHCM}
+            location={"Hồ Chí Minh"}
+            setEnd={setEndHCM}
+          />
+          <CardFollowPlace
+            posts={postDaNang}
+            setStart={setStartDaNang}
+            location={"Đà Nẵng"}
+            setEnd={setEndDaNang}
+          />
         </div>
       </div>
 
@@ -54,8 +181,17 @@ function Home() {
         <div style={{ flex: 0 }} />
       </div>
     </div>
-  
   );
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    searching: state.post.searching,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

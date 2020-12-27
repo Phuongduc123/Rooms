@@ -46,6 +46,11 @@ li {
 .search {
 }
 
+.popover-elm:hover{
+  color:#1890ff;
+  
+}
+
 .signup-btn {
   font-family: "Montserrat";
   font-style: normal;

@@ -2,6 +2,7 @@
 import React, { useEffect,createElement, useState } from "react";
 import "./RoomDetail.css";
 import { Input, Carousel, Avatar, Tooltip, Comment } from "antd";
+import BeautyStars from 'beauty-stars';
 import moment from "moment";
 import {
   HeartOutlined,
@@ -21,6 +22,7 @@ import actions from "../../redux/actions/post/index";
 import { connect } from "react-redux";
 import ShowMoreText from "react-show-more-text";
 import FbImageLibrary from "react-fb-image-grid";
+import { getReview, postReview } from "../../request";
 const { Search } = Input;
 const {TextArea} = Input;
 
@@ -34,6 +36,12 @@ function getWindowDimensions() {
 
 function RoomDetail(props) {
   const location = useLocation();
+  const [commentList,setCommentList] = useState([])
+  const [totalRating,setTotalRating] = useState(1) 
+  const [comment,setComment] = useState("");
+  const [rating,setRating] = useState(1);
+  const [startComment,setStartComment] = useState(0);
+  const [endComment,setEndComment] = useState(5)
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
@@ -42,6 +50,7 @@ function RoomDetail(props) {
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
+      
     }
 
     window.addEventListener("resize", handleResize);
@@ -50,42 +59,28 @@ function RoomDetail(props) {
 
   useEffect(() => {
     props.getRoomDetail(location?.state?.id);
-    console.log(props.roomDetail);
+    getReview({start:startComment,end:endComment,id:location?.state?.id},setCommentList)
   }, []);
 
-  const handleRoomType = (type) => {
-    switch (type) {
-      case "pt":
-        return <div> phòng trọ</div>;
-      case "cc":
-        return <div> chung cư mini</div>;
-      case "n":
-        return <div> nhà nguyên căn</div>;
-      case "ccnc":
-        return <div> chung cư nguyên căn</div>;
-    }
-  };
+  useEffect(()=>{
+    // console.log(props.roomDetail.post.images)
+  },[props.roomDetail])
 
-  const handleBathRoom = (type) => {
-    switch (type) {
-      case "kk":
-        return <div>khép kín</div>;
-      case "c":
-        return <div>chung</div>;
-    }
-  };
+  useEffect(()=>{
+    let total=0;
+    commentList.map((review)=>[
+      total+=review.rating   
+    ])
+    setTotalRating(total/commentList.length)
 
-  const handleKitchen = (type) => {
-    switch (type) {
-      case "r":
-        return <div>khu bếp riêng</div>;
-      case "c":
-        return <div>khu bếp chung</div>;
-      case "k":
-        return <div>không nấu ăn</div>;
-    }
-  };
+  },[commentList])
 
+  //function
+  const hanldePostReview = () =>{
+    postReview({rating:rating,comment:comment},location?.state?.id)
+    setComment("")
+  }
+  
   return (
     <div className="RoomDetail">
       <div
@@ -95,9 +90,9 @@ function RoomDetail(props) {
         <div style={{ display: "flex", marginTop: "30px" }}>
           <div className="line" />
           <div style={{ flexDirection: "column", flex: 1 }}>
-            <div className="place">{props.roomDetail.post.detailAddress}</div>
+            <div className="place">{props.roomDetail?.detailAddress}</div>
             <div style={{ display: "flex" }}>
-              <div style={{ flex: 10, fontSize: "12px", color: "grey" }}>
+              <div style={{ flex: 10, fontSize: "12px", color: "green" }}>
                 Còn phòng
               </div>
               <div style={{ flex: 1, display: "flex", marginTop: "-20px" }}>
@@ -108,13 +103,10 @@ function RoomDetail(props) {
                 <div>
                   <div>{props.roomDetail.hostName}</div>
                   <div style={{ fontSize: "10px", color: "grey" }}>
-                    {props.roomDetail.post.detailAddress}
+                    {props.roomDetail?.detailAddress}
                   </div>
                 </div>
               </div>
-            </div>
-            <div style={{ fontSize: "12px", color: "grey" }}>
-              Ngày đăng: 01/12/2000
             </div>
           </div>
         </div>
@@ -126,49 +118,46 @@ function RoomDetail(props) {
           <div style={{ display: "flex" }}>
             <div style={{ flex: 1.5 }}>
               <FbImageLibrary
-                images={[
-                  "https://p4.wallpaperbetter.com/wallpaper/577/544/1016/star-wars-the-mandalorian-baby-yoda-hd-wallpaper-preview.jpg",
-                  "https://p4.wallpaperbetter.com/wallpaper/577/544/1016/star-wars-the-mandalorian-baby-yoda-hd-wallpaper-preview.jpg",
-                  "https://p4.wallpaperbetter.com/wallpaper/577/544/1016/star-wars-the-mandalorian-baby-yoda-hd-wallpaper-preview.jpg",
-                  "https://p4.wallpaperbetter.com/wallpaper/577/544/1016/star-wars-the-mandalorian-baby-yoda-hd-wallpaper-preview.jpg",
-                  "https://p4.wallpaperbetter.com/wallpaper/577/544/1016/star-wars-the-mandalorian-baby-yoda-hd-wallpaper-preview.jpg",
-                  "https://p4.wallpaperbetter.com/wallpaper/577/544/1016/star-wars-the-mandalorian-baby-yoda-hd-wallpaper-preview.jpg",
-                ]}
+                style={{height:"300px"}}
+                images={props.roomDetail.images}
                 renderOverlay={() => <div>Xem ảnh</div>}
               />
             </div>
             <div className="information-table" style={{ flex: 1 }}>
               <div className="address-name">
-                {props.roomDetail.post.detailAddress}
+                {props.roomDetail?.detailAddress}
               </div>
               <div className="post-date-detail">Ngày đăng: 12/11/2000</div>
               <div className="have-room">Còn phòng</div>
               <div className="price-detail">
-                {props.roomDetail.post.price} /{" "}
+                {props.roomDetail?.price} /{" "}
                 <span style={{ fontSize: "17px", color: "grey" }}>tháng</span>
               </div>
               <div style={{ display: "flex", marginTop: "10px" }}>
                 <GlobalOutlined style={{ color: "brown" }} />
                 <div style={{ marginLeft: "10px", color: "black" }}>
-                  {props.roomDetail.post.describeAddress}
+                  {props.roomDetail?.describeAddress}
                 </div>
               </div>
               <div style={{ display: "flex" }}>
                 <HomeOutlined style={{ color: "brown" }} />
                 <div style={{ marginLeft: "10px", color: "black" }}>
-                  {handleRoomType(props.roomDetail.post.roomType)}
+                  {props.roomDetail?.roomType}
                 </div>
               </div>
               <div style={{ display: "flex" }}>
                 <UserOutlined style={{ color: "black" }} />
                 <div style={{ marginLeft: "10px", color: "black" }}>
-                  {props.roomDetail.post.numberOfRoom} người ở tối đa
+                  {props.roomDetail?.numberOfRoom} người ở tối đa
                 </div>
               </div>
               <div style={{ color: "black", marginTop: "10px" }}>
                 Đánh giá:{" "}
-                <span style={{ color: "red", fontSize: "17px" }}>4.9</span> /5
+                <span style={{ color: "red", fontSize: "17px" }}>{totalRating}</span> /5
                 (19 đánh giá)
+                <BeautyStars
+                  value={totalRating}
+                />
               </div>
               <div className="contact">
                 <div
@@ -189,8 +178,9 @@ function RoomDetail(props) {
                 style={{ display: "flex", marginTop: "20px", color: "black" }}
               >
                 <div style={{ flex: 1 }}>
-                  <HeartOutlined
-                    style={{ marginLeft: "21px", cursor: "pointer" }}
+                  <HeartOutlined 
+                    onClick={()=>props.postFavorite(location?.state?.id)}
+                    style={{ marginLeft: "21px", cursor: "pointer",color:"red" }}
                   />
                   <div style={{ fontSize: "12px" }}>Yêu thích</div>
                 </div>
@@ -228,7 +218,7 @@ function RoomDetail(props) {
           <div className="location">
             <div style={{ fontSize: "20px" }}>Địa điểm</div>
             <div style={{ color: "grey" }}>
-              {props.roomDetail.post.detailAddress}
+              {props.roomDetail?.detailAddress}
             </div>
           </div>
           <div
@@ -247,52 +237,32 @@ function RoomDetail(props) {
                   <div>
                     <div style={{ display: "flex" }}>
                       {`Loại phòng:`}
-                      {handleRoomType(props.roomDetail.post.roomType)}
+                      {props.roomDetail?.roomType}
                     </div>
                     <div style={{ display: "flex" }}>{`Ban công: ${
-                      props.roomDetail.post.balcony === true ? "có" : "không"
+                      props.roomDetail?.balcony === true ? "có" : "không"
                     }`}</div>
                     <div style={{ display: "flex" }}>
                       {`Nhà tắm: `}
-                      {handleBathRoom(props.roomDetail.post.bathroomType)}
+                      {props.roomDetail?.bathroomType}
                     </div>
                     <div style={{ display: "flex" }}>
-                      {`Bếp: `} {handleKitchen(props.roomDetail.post.kitchen)}
+                      {`Bếp: `} {props.roomDetail?.kitchen}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="other-utility" style={{ flex: 1 }}>
-              <div style={{ fontSize: "20px" }}>Tiện ích</div>
+              <div style={{ fontSize: "20px" }}>Phụ phí</div>
               <div
                 style={{
                   color: "grey",
-                  wordBreak: "break-all",
                   width: windowDimensions.width / 6,
                 }}
               >
-                <ShowMoreText
-                  expanded={false}
-                  width={400}
-                  lines={3}
-                  more="Xem thêm"
-                  less="Thu lại"
-                >
-                  bắt cóc, hãm hiếp và sát hại nhiều phụ nữ cũng như trẻ em gái
-                  trong giai đoạn những năm 1970, thậm chí trước đó nữa. Sau hơn
-                  một thập kỷ chối tội, trước khi bị hành quyết vào năm 1989,
-                  anh đã thú nhận mình là thủ phạm của 30 vụ giết người tại 7
-                  bang từ năm 1974 đến năm 1978. Số nạn nhân thực sự vẫn là điều
-                  bí ẩn và có thể còn cao hơn con số 30. Bundy được đánh giá là
-                  một người đẹp trai và lôi cuốn. Đây cũng là những điểm mà anh
-                  tận dụng nhằm chiếm lòng tin của các nạn nhân và cả xã hội.
-                  Anh thường tiếp cận mục tiêu ở những nơi công cộng, giả vờ bị
-                  thương hoặc tàn tật hay đóng giả một nhân vật có thẩm quyền,
-                  trước khi đánh họ bất tỉnh rồi đưa đến địa điểm vắng vẻ để
-                  cưỡng hiếp và bóp cổ. Đôi khi anh quay lại hiện trường thứ cấp
-                  của các vụ án, chải
-                </ShowMoreText>
+                  <div>{`Tiền điện: ${props.roomDetail?.electricity_price}/số điện`}</div>
+                  <div>{`Tiền nước: ${props.roomDetail?.water_price}/số nước`}</div>
               </div>
             </div>
             <div className="note" style={{ flex: 1 }}>
@@ -311,19 +281,7 @@ function RoomDetail(props) {
                   more="Xem thêm"
                   less="Thu lại"
                 >
-                  bắt cóc, hãm hiếp và sát hại nhiều phụ nữ cũng như trẻ em gái
-                  trong giai đoạn những năm 1970, thậm chí trước đó nữa. Sau hơn
-                  một thập kỷ chối tội, trước khi bị hành quyết vào năm 1989,
-                  anh đã thú nhận mình là thủ phạm của 30 vụ giết người tại 7
-                  bang từ năm 1974 đến năm 1978. Số nạn nhân thực sự vẫn là điều
-                  bí ẩn và có thể còn cao hơn con số 30. Bundy được đánh giá là
-                  một người đẹp trai và lôi cuốn. Đây cũng là những điểm mà anh
-                  tận dụng nhằm chiếm lòng tin của các nạn nhân và cả xã hội.
-                  Anh thường tiếp cận mục tiêu ở những nơi công cộng, giả vờ bị
-                  thương hoặc tàn tật hay đóng giả một nhân vật có thẩm quyền,
-                  trước khi đánh họ bất tỉnh rồi đưa đến địa điểm vắng vẻ để
-                  cưỡng hiếp và bóp cổ. Đôi khi anh quay lại hiện trường thứ cấp
-                  của các vụ án, chải
+                  {props.roomDetail?.other}
                 </ShowMoreText>
               </div>
             </div>
@@ -338,39 +296,33 @@ function RoomDetail(props) {
                 more="Xem thêm"
                 less="Thu lại"
               >
-                bắt cóc, hãm hiếp và sát hại nhiều phụ nữ cũng như trẻ em gái
-                trong giai đoạn những năm 1970, thậm chí trước đó nữa. Sau hơn
-                một thập kỷ chối tội, trước khi bị hành quyết vào năm 1989, anh
-                đã thú nhận mình là thủ phạm của 30 vụ giết người tại 7 bang từ
-                năm 1974 đến năm 1978. Số nạn nhân thực sự vẫn là điều bí ẩn và
-                có thể còn cao hơn con số 30. Bundy được đánh giá là một người
-                đẹp trai và lôi cuốn. Đây cũng là những điểm mà anh tận dụng
-                nhằm chiếm lòng tin của các nạn nhân và cả xã hội. Anh thường
-                tiếp cận mục tiêu ở những nơi công cộng, giả vờ bị thương hoặc
-                tàn tật hay đóng giả một nhân vật có thẩm quyền, trước khi đánh
-                họ bất tỉnh rồi đưa đến địa điểm vắng vẻ để cưỡng hiếp và bóp
-                cổ. Đôi khi anh quay lại hiện trường thứ cấp của các vụ án, chải
+                {props.roomDetail?.other}
               </ShowMoreText>
             </div>
           </div>
           <div className="comments">
             <div style={{ color: "black", marginTop: "30px",fontSize:"20px" }}>
               Đánh giá:{" "}
-              <span style={{ color: "red", fontSize: "20px" }}>4.9</span> /5 (19
+              <span style={{ color: "red", fontSize: "20px" }}>{rating}</span> /5 (19
               đánh giá)
+              <BeautyStars
+                value={rating}
+                onChange={value => setRating(value)}
+              />
             </div>
+
             <div style={{display:"flex"}}>
               <Avatar
                 src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                 alt="Han Solo"
               />
-              <TextArea rows={4}/>
+              <TextArea rows={4} value={comment} onChange={(value)=>setComment(value.target.value)} onPressEnter={hanldePostReview}/>
             </div>
-            <CommentAntd />
-            <CommentAntd />
-            <CommentAntd />
-            <CommentAntd />
-            <CommentAntd />
+            {commentList.map((commentContent,index)=>{
+              return(
+                <CommentAntd key={index} commentContent={commentContent} />
+              )
+            })}
           </div>
         </div>
 
@@ -402,6 +354,9 @@ const mapDispatchToProps = (dispatch) => {
     getRoomDetail: (id) => {
       dispatch(actions.getRoomDetail(id));
     },
+    postFavorite: (postId) =>{
+      dispatch(actions.postFavorite(postId));
+    }
   };
 };
 
@@ -445,7 +400,7 @@ function CommentAntd(props) {
     <div className="Comment">
       <Comment
         actions={actions}
-        author={<a>Han Solo</a>}
+        author={<a>{props.commentContent.renter_id}</a>}
         avatar={
           <Avatar
             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -454,9 +409,7 @@ function CommentAntd(props) {
         }
         content={
           <p>
-            We supply a series of design principles, practical patterns and high
-            quality design resources (Sketch and Axure), to help people create
-            their product prototypes beautifully and efficiently.
+            {props.commentContent.comment}
           </p>
         }
         datetime={

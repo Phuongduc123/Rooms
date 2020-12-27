@@ -1,12 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { GET_HOST_POST_LIST_SUCCEED, GET_ROOM_DETAIL, GET_ROOM_DETAIL_SUCCEED,POST_POST } from "../actions/post/action_type";
-import {postPost} from "../../request";
+import { GET_HOST_POST_LIST_SUCCEED, GET_ROOM_DETAIL, GET_ROOM_DETAIL_SUCCEED,POST_FAVORITE,POST_POST, SEARCH_POST } from "../actions/post/action_type";
+import {postFavorite, postPost} from "../../request";
 
 export default (
   state = {
     postListIsConfirmed: [],
     postListIsntConfirmed: [],
-    roomDetail:{}
+    roomDetail:{},
+    searching:"",
   },
   action
 ) => {
@@ -39,6 +40,20 @@ export default (
       postPost(action.params)
       return {
         ...state
+      }
+    }
+
+    case POST_FAVORITE:{
+      postFavorite(action.params)
+      return {
+        ...state
+      }
+    }
+
+    case SEARCH_POST:{
+      return{
+        ...state,
+        searching:action.params.searching
       }
     }
 

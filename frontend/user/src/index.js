@@ -4,6 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom'
 
 
 
+
 import App from './App';
 import {Provider} from 'react-redux'
 import {createStore,applyMiddleware} from 'redux';
@@ -13,6 +14,7 @@ import allReducers from './redux/reducers/index.js';
 import rootSaga from "./redux/sagas/rootSaga";
 import 'antd/dist/antd.css';
 import './index.css';
+import 'react-notifications/lib/notifications.css';
 
 
 

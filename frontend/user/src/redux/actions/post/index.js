@@ -4,7 +4,9 @@ import {
   GET_HOST_POST_LIST_SUCCEED,
   GET_ROOM_DETAIL,
   GET_ROOM_DETAIL_SUCCEED,
+  POST_FAVORITE,
   POST_POST,
+  SEARCH_POST,
 } from "./action_type";
 
 export default {
@@ -81,4 +83,22 @@ export default {
       },
     };
   },
+
+  postFavorite:(postId)=>{
+    return {
+      type: POST_FAVORITE,
+      params:{
+        postId
+      }
+    }
+  },
+
+  searchPost:(searching) =>{
+    return{
+      type:SEARCH_POST,
+      params:{
+        searching
+      }
+    }
+  }
 };

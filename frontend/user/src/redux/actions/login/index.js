@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { POST_TO_LOGIN } from "./action_type";
+import { CREATE_SOCKET, POST_TO_LOGIN } from "./action_type";
 
 export default {
   postToLogin: (email,password,setLogged) => {
@@ -12,5 +12,11 @@ export default {
       setLogged
     };
   },
+  createSocket:() =>{
+    return {
+      type:CREATE_SOCKET,
+      
+    }
+  }
   
 };
