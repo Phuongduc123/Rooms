@@ -28,7 +28,7 @@ function* getRoomDetailSaga(action) {
     let setResponse=(res)=>{
         response=res
     }
-    yield call(() => getRoomDetail(action.params,setResponse));
+    yield call(() => getRoomDetail(action.params,action.setLiked,setResponse));
     yield put(actions.getRoomDetailSucceed(response));
   } catch (err) {
     console.log('err', err);

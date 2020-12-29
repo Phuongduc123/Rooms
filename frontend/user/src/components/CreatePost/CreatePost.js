@@ -48,7 +48,7 @@ function CreatePost(props) {
       <div style={{ display: "flex", marginTop: "20px" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
-          <div className="orange-text">Lê Xuân Huy </div>
+          <div className="orange-text">{localStorage.getItem("Rooms_username")} </div>
           <div className="I" />
           <div className="black-text">Tạo bài đăng</div>
         </div>
@@ -243,7 +243,7 @@ function Step1(props) {
         />
       </Form.Item>
       <Form.Item>
-        <div className="square">Diện tích</div>
+        <div className="square">Diện tích(m2)</div>
         <Input
           style={{
             borderRadius: "5px",
@@ -254,7 +254,7 @@ function Step1(props) {
             props.setSquare(value.target.value);
           }}
         />
-        <div
+        {/* <div
           style={{
             position: "absolute",
             color: "grey",
@@ -262,7 +262,7 @@ function Step1(props) {
           }}
         >
           m2
-        </div>
+        </div> */}
       </Form.Item>
       <Form.Item>
         <div style={{ display: "flex" }}>
@@ -366,7 +366,7 @@ function Step1(props) {
       <Form.Item>
         <div style={{ display: "flex" }}>
           <div style={{ flex: 1 }}>
-            <div className="electric">Tiền điện </div>
+            <div className="electric">Tiền điện(vnđ/số) </div>
             <Input
               style={{
                 borderRadius: "5px",
@@ -377,7 +377,7 @@ function Step1(props) {
                 props.setElectric(value.target.value);
               }}
             />
-            <div
+            {/* <div
               style={{
                 position: "absolute",
                 color: "grey",
@@ -385,7 +385,7 @@ function Step1(props) {
               }}
             >
               vnđ/số
-            </div>
+            </div> */}
           </div>
           <div style={{ flex: 0.5 }} />
           <div style={{ flex: 1 }}>
@@ -403,7 +403,7 @@ function Step1(props) {
           </div>
           <div style={{ flex: 0.5 }} />
           <div style={{ flex: 1 }}>
-            <div className="electric">Tiền nước </div>
+            <div className="electric">Tiền nước(vnđ/số) </div>
             <Input
               style={{
                 borderRadius: "5px",
@@ -414,7 +414,7 @@ function Step1(props) {
                 props.setWater(value.target.value);
               }}
             />
-            <div
+            {/* <div
               style={{
                 position: "absolute",
                 color: "grey",
@@ -422,7 +422,7 @@ function Step1(props) {
               }}
             >
               vnđ/số
-            </div>
+            </div> */}
           </div>
           
         </div>
@@ -431,7 +431,7 @@ function Step1(props) {
       <Form.Item>
         <div style={{ display: "flex" }}>
           <div className="days" style={{ flex: 1 }}>
-            <div>Thời lượng đăng</div>
+            <div>Thời lượng đăng(ngày)</div>
             <Input
               style={{
                 borderRadius: "5px",
@@ -442,7 +442,7 @@ function Step1(props) {
                 props.setExpiredDate(value.target.value);
               }}
             />
-            <div
+            {/* <div
               style={{
                 position: "absolute",
                 color: "grey",
@@ -451,7 +451,7 @@ function Step1(props) {
             >
               {" "}
               ngày
-            </div>
+            </div> */}
           </div>
           <div style={{ flex: 0.5 }} />
           <div style={{ flex: 1 }}>
@@ -524,26 +524,6 @@ function Step2(props) {
   };
 
   const handleOkModal = () => {
-    console.log("data",
-    props.detailAddress,
-    props.describeAddress,
-    props.roomType,
-    props.numberOfRoom,
-    props.price,
-    props.rentTime,
-    props.square,
-    props.withOwner,
-    props.bathroomType,
-    props.heater,
-    props.kitchen,
-    props.airconditioner,
-    props.balcony,
-    props.water,
-    props.electric,
-    props.other,
-    props.images,
-    props.expiredDate
-    )
     props.postPost(
       props.detailAddress,
       props.describeAddress,
@@ -623,6 +603,10 @@ function Step2(props) {
               props.setOther(value.target.value);
             }}
           />
+        </Form.Item>
+        <Form.Item>
+          <div className="Mô tả khác">{`Số tiền bạn phải trả cho ${props.expiredDate} ngày thuê:`}</div>
+          <div style={{fontSize:"20px"}}>{props.expiredDate*10} .000 đồng</div>
         </Form.Item>
         <Form.Item>
           <div style={{ display: "flex" }}>

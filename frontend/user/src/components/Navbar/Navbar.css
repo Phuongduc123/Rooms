@@ -37,7 +37,7 @@ li {
 .search-bar {
   padding-top: 1.5rem;
   padding-left: 2.5rem;
-  padding-right: 25rem;
+  padding-right: 15rem;
 }
 
 .active {
@@ -98,7 +98,7 @@ li {
   /* .nav-list a:not(:first-child) {display: none;} */
   /* .signin-signup{display: none;} */
   .option{display: none;}
-  .search-bar{display: none;}
+  .search-bar-x{display: none;}
   .signin-signup{padding-bottom: 20px;}
   .nav-list a.icon {
     float: right;
@@ -106,7 +106,7 @@ li {
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1100px) {
   /* .nav-list a:not(:first-child) {display: none;} */
   /* .signin-signup{display: none;} */
   /* .option{display: none;} */

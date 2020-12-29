@@ -19,7 +19,11 @@ import RoomFilter from "./components/RoomFilter/RoomFilter";
 import HostList from "./components/Admin/HostList";
 import HostListConfirmed from "./components/Admin/HostListConfirmed";
 import UpdatePost from "./components/UpdatePost/UpdatePost";
-
+import PostConfirmList from "./components/Admin/PostConfirmList";
+import PostUnconfirmList from "./components/Admin/PostUnconfirmedList";
+import ManagePostHaventConfirmed from "./components/ManagePostHaventConfirmed/ManagePostHaventConfirmed";
+import ReviewListConfirmed from "./components/Admin/ReviewListConfirmed";
+import Statistic from "./components/Admin/Statistic";
 function Routers() {
   const [logged,setLogged]= useState("false")
   useEffect(()=>{
@@ -30,10 +34,11 @@ function Routers() {
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
       <Switch>
-        <Route path="/home">
+        
+        <Route exact path="/home">
           <Home />
         </Route>
-        <Route path="/login">
+        <Route exact path="/login">
           <Login />
         </Route>
         <Route path="/signup">
@@ -60,6 +65,9 @@ function Routers() {
         <Route path="/manage-post">
           <ManagePost/>
         </Route>
+        <Route path="/manage-post-being-approved">
+          <ManagePostHaventConfirmed/>
+        </Route>
         <Route path="/room-detail">
           <RoomDetail/>
         </Route>
@@ -75,6 +83,7 @@ function Routers() {
         <Route path="/update-room-detail">
           <UpdatePost/>
         </Route>
+        
 
 
         {/* Admin */}
@@ -84,6 +93,23 @@ function Routers() {
         <Route path="/admin/list-host-confirmed">
           <HostListConfirmed/>  
         </Route>
+        <Route path="/admin/list-post-confirmed">
+          <PostConfirmList/>  
+        </Route>
+        <Route path="/admin/list-post-unconfirmed">
+          <PostUnconfirmList/>  
+        </Route>
+        <Route path="/admin/list-review-confirmed">
+          <ReviewListConfirmed/>
+        </Route>
+        <Route path="/admin/statistic">
+          <Statistic/>
+        </Route>
+
+        <Route exact path="/">
+          <Home />
+        </Route>
+
         
       </Switch>
       

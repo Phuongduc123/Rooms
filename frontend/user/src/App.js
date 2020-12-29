@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
@@ -13,10 +13,21 @@ import Routers from "./Routers";
 import Chat from "./components/Chat/Chat";
 import CreatePost from "./components/CreatePost/CreatePost";
 import Aside from "./components/Admin/Aside";
+import ChatAdmin from "./components/ChatAdmin/ChatAdmin";
+import {connect} from "react-redux"
 
 const { Header, Footer, Sider, Content } = Layout;
 
 function App(props) {
+  //state
+  const [userType,setUserType] = useState("")
+
+  //hook
+  useEffect(()=>{
+    setUserType(localStorage.getItem("Rooms_user_type"))
+  },[props.logged])
+
+
   return (
     <div className="App">
       <Affix offsetTop={0}>
@@ -44,11 +55,24 @@ function App(props) {
       {/* message */}
 
       <div style={{ position: "fixed",bottom:"0px", right: "10px", zIndex: 5 }}>
-          <Chat />
+          {userType==="host"?<Chat />:
+          userType==="admin"?
+          <ChatAdmin/>:<></>}
       </div>
       <NotificationContainer/>
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    logged:state.login.logged
+  };
+};
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

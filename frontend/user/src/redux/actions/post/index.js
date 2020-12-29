@@ -23,12 +23,13 @@ export default {
       },
     };
   },
-  getRoomDetail: (id) => {
+  getRoomDetail: (id,setLiked) => {
     return {
       type: GET_ROOM_DETAIL,
       params: {
         id,
       },
+      setLiked
     };
   },
   getRoomDetailSucceed: (data) => {

@@ -70,6 +70,7 @@ function Login(props) {
           >
             <div className="text-email">Địa chỉ email</div>
             <Input
+              type={"email"}
               style={{
                 borderRadius: "30px",
                 background: "#e3fbfd",

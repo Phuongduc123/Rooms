@@ -85,7 +85,7 @@ function Favorite(props) {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
-          <div className="orange-text">Lê Xuân Huy </div>
+          <div className="orange-text">{localStorage.getItem("Rooms_username")}</div>
           <div className="I" />
           <div className="black-text">Danh sách phòng yêu thích</div>
         </div>
@@ -93,7 +93,7 @@ function Favorite(props) {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, marginTop: "15px" }}>
-          Hãy cập nhật thông tin cá nhân thật chính xác nhé!
+        Nhanh chân đặt ngay trước khi hết phòng nhé!
         </div>
       </div>
 

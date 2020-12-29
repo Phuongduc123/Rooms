@@ -55,7 +55,7 @@ function Profile(props) {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
-          <div className="orange-text">Lê Xuân Huy </div>
+          <div className="orange-text">{localStorage.getItem("Rooms_username")}</div>
           <div className="I" />
           <div className="black-text">Thông tin tài khoản</div>
         </div>
@@ -95,7 +95,7 @@ function Profile(props) {
               />
             </Form.Item>
             <Form.Item>
-              <div className="text-password">Username</div>
+              <div className="text-password">Tên đăng nhập</div>
               <Input
                 style={{
                   borderRadius: "5px",

@@ -97,31 +97,7 @@ function Signup(props) {
               }}
             />
           </Form.Item>
-          <Form.Item
-            name="phone"
-            rules={[
-              {
-                required: telephoneInput === "",
-                message: "Please input your phone!",
-              },
-            ]}
-          >
-            <div className="text-password">Số điện thoại</div>
-            <Input
-              style={{
-                borderRadius: "30px",
-                background: "#e3fbfd",
-                border: "2px solid #43E5EF",
-                boxSizing: "border-box",
-              }}
-              value={telephoneInput}
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              placeholder="Số điện thoại"
-              onChange={(value) => {
-                setTelephoneInput(value.target.value);
-              }}
-            />
-          </Form.Item>
+          
           <Form.Item
             name="name"
             rules={[
@@ -131,7 +107,7 @@ function Signup(props) {
               },
             ]}
           >
-            <div className="text-password">Họ và tên</div>
+            <div className="text-password">Tên đăng nhập</div>
             <Input
               style={{
                 borderRadius: "30px",
@@ -231,7 +207,7 @@ function Signup(props) {
           <Form.Item>
             <div className="text-signin-intro">
               Bạn đã có tài khoản Easy{" "}
-              <span className="text-logo">Accomod</span>? <a>Đăng nhập</a>
+              <span className="text-logo">Accomod</span>? <a onClick={()=>{history.push("/login")}}>Đăng nhập</a>
             </div>
           </Form.Item>
         </Form>

@@ -53,6 +53,7 @@ function UpdatePost(props) {
     else {
       setWithOwner("False");
     }
+    setImages(postDetail.images)
     setRoomType(postDetail.roomType);
     setKitchen(postDetail.kitchen);
     setElectric(postDetail.electricity_price);
@@ -65,7 +66,7 @@ function UpdatePost(props) {
     else {
       setHeater("False");
     }
-    setAirconditioner(postDetail.airconditioner);
+    // setAirconditioner(postDetail.airconditioner);
     setOther(postDetail.other);
   }, [postDetail]);
   //function
@@ -76,7 +77,6 @@ function UpdatePost(props) {
       roomType,
       numberOfRoom,
       price,
-      rentTime,
       square,
       withOwner,
       bathroomType,
@@ -84,10 +84,10 @@ function UpdatePost(props) {
       kitchen,
       airconditioner,
       balcony,
-      water,
-      electric,
+      water_price:parseInt(water),
+      electricity_price:parseInt(electric),
       other,
-      images,
+      // images,
       expiredDate
     },location?.state?.id)
     setVisible(false)
@@ -105,9 +105,9 @@ function UpdatePost(props) {
       <div style={{ display: "flex", marginTop: "20px" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
-          <div className="orange-text">Lê Xuân Huy </div>
+          <div className="orange-text">{localStorage.getItem("Rooms_username")}</div>
           <div className="I" />
-          <div className="black-text">Tạo bài đăng</div>
+          <div className="black-text">Cập nhật bài đăng</div>
         </div>
       </div>
       <div style={{ display: "flex" }}>
@@ -129,7 +129,7 @@ function UpdatePost(props) {
             <div
               style={{ fontSize: "40px", textAlign: "center", color: "orange" }}
             >
-              Bước 1: Cập nhật bài đăng
+              Cập nhật bài đăng
             </div>
             <Form.Item>
               <div className="text-password">Địa chỉ chi tiết </div>

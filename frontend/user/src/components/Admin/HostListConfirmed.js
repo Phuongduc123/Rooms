@@ -2,11 +2,16 @@ import { Button, Menu, Table } from 'antd';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import Aside from './Aside';
 import { useEffect, useState } from 'react';
-import { getConfirmedHostList, getUnconfirmedHostList } from '../../request';
+import { getConfirmedHostList, getUnconfirmedHostList, putAllowUpdate } from '../../request';
 
 const { SubMenu } = Menu;
 
 const columns = [
+  {
+    title: ()=>(<div style={{fontSize:"16px",color:"#1890ff"}}>Id</div>),
+    key: 'Id',
+    dataIndex: 'Id'
+  },
   {
     title: ()=>(<div style={{fontSize:"16px",color:"#1890ff"}}>Tên tài khoản</div>),
     key: 'username',
@@ -40,9 +45,12 @@ const columns = [
   {
     title: ()=>(<div style={{fontSize:"16px",color:"#1890ff"}}>Xác nhận</div>),
     key: "confirm",
-    render: (text)=>{
+    render: (text,data)=>{
       return(
-        <Button>unconfirm</Button>
+        <Button
+        onClick={()=>{
+          putAllowUpdate({id:data.id})
+        }}>Cho phép cập nhật</Button>
       )
     }
   }
@@ -62,7 +70,7 @@ function HostListConfirmed() {
   return (
     <div className="HostListConfirmed" style={{display:"flex"}}>
        <div style={{flex:1}}>
-        <Aside/>
+        <Aside selectedKeys={"2"} openKeys={"sub1"}/>
        </div> 
        <div style={{padding:"20px",flex:6}}>
        <Table columns={columns} dataSource={confirmedHostList} />

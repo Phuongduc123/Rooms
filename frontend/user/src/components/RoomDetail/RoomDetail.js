@@ -41,12 +41,14 @@ function RoomDetail(props) {
   const [comment,setComment] = useState("");
   const [rating,setRating] = useState(1);
   const [startComment,setStartComment] = useState(0);
-  const [endComment,setEndComment] = useState(5)
+  const [endComment,setEndComment] = useState(5);
+  const [liked,setLiked] = useState(false);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
 
   //hook
+
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -58,13 +60,9 @@ function RoomDetail(props) {
   }, []);
 
   useEffect(() => {
-    props.getRoomDetail(location?.state?.id);
+    props.getRoomDetail(location?.state?.id,setLiked);
     getReview({start:startComment,end:endComment,id:location?.state?.id},setCommentList)
   }, []);
-
-  useEffect(()=>{
-    // console.log(props.roomDetail.post.images)
-  },[props.roomDetail])
 
   useEffect(()=>{
     let total=0;
@@ -153,9 +151,10 @@ function RoomDetail(props) {
               </div>
               <div style={{ color: "black", marginTop: "10px" }}>
                 Đánh giá:{" "}
-                <span style={{ color: "red", fontSize: "17px" }}>{totalRating}</span> /5
+                <span style={{ color: "red", fontSize: "17px" }}>{Math.round(totalRating,1)}</span> /5
                 (19 đánh giá)
                 <BeautyStars
+                  size={20}
                   value={totalRating}
                 />
               </div>
@@ -179,10 +178,13 @@ function RoomDetail(props) {
               >
                 <div style={{ flex: 1 }}>
                   <HeartOutlined 
-                    onClick={()=>props.postFavorite(location?.state?.id)}
-                    style={{ marginLeft: "21px", cursor: "pointer",color:"red" }}
+                    onClick={()=>{
+                      setLiked(!liked)
+                      props.postFavorite(location?.state?.id)
+                    }}
+                    style={{ marginLeft: "21px", cursor: "pointer",color:liked===true?"red":"black" }}
                   />
-                  <div style={{ fontSize: "12px" }}>Yêu thích</div>
+                  <div style={{ fontSize: "12px" }}>{`${props.roomDetail.total_like} Yêu thích`}</div>
                 </div>
                 <div style={{ flex: 1 }}>
                   <EditOutlined
@@ -194,7 +196,7 @@ function RoomDetail(props) {
                   <EyeOutlined
                     style={{ marginLeft: "21px", cursor: "pointer" }}
                   />
-                  <div style={{ fontSize: "12px" }}>193 view</div>
+                  <div style={{ fontSize: "12px" }}>{props.roomDetail.total_views} view</div>
                 </div>
                 <div style={{ flex: 1 }}>
                   <WarningOutlined
@@ -301,11 +303,12 @@ function RoomDetail(props) {
             </div>
           </div>
           <div className="comments">
-            <div style={{ color: "black", marginTop: "30px",fontSize:"20px" }}>
+            <div style={{ color: "black", marginTop: "30px",fontSize:"20px",marginBottom:"10px" }}>
               Đánh giá:{" "}
               <span style={{ color: "red", fontSize: "20px" }}>{rating}</span> /5 (19
               đánh giá)
               <BeautyStars
+                size={20}
                 value={rating}
                 onChange={value => setRating(value)}
               />
@@ -351,8 +354,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getRoomDetail: (id) => {
-      dispatch(actions.getRoomDetail(id));
+    getRoomDetail: (id,setLiked) => {
+      dispatch(actions.getRoomDetail(id,setLiked));
     },
     postFavorite: (postId) =>{
       dispatch(actions.postFavorite(postId));

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import {  CREATE_SOCKET, POST_TO_LOGIN} from "../actions/login/action_type";
+import {  CREATE_SOCKET, LOGOUT, POST_TO_LOGIN, POST_TO_LOGIN_SUCCESS} from "../actions/login/action_type";
 import {postToLogin} from "../../request";
 
 export default (
@@ -11,12 +11,19 @@ export default (
 ) => {
   switch (action.type) {
     
-    case POST_TO_LOGIN:{
-      postToLogin(action.params,action.setLogged)
-      console.log("11")
+    case POST_TO_LOGIN_SUCCESS:{
+      console.log("success")
       return {
         ...state,
-        logged:!state.logged  
+        logged:!state.logged
+      }
+      
+    }
+
+    case LOGOUT:{
+      return {
+        ...state,
+        logged:!state.logged
       }
       
     }

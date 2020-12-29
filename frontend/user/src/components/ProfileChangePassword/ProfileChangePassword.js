@@ -44,7 +44,7 @@ function ProfileChangePassword(props) {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
-          <div className="orange-text">Lê Xuân Huy </div>
+          <div className="orange-text">{localStorage.getItem("Rooms_username")}</div>
           <div className="I" />
           <div className="black-text">Thay đổi mật khẩu</div>
         </div>

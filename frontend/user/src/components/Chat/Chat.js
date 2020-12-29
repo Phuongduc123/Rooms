@@ -10,21 +10,31 @@ import { w3cwebsocket as W3CWebsocket } from "websocket";
 function Chat() {
   //state
   const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(20);
+  const [end, setEnd] = useState(200);
   const [idChat, setIdChat] = useState(0);
   const [fullMessage, setFullMessage] = useState([]);
   const [message, setMessage] = useState("");
-  const [hiddenContent, setHiddenContent] = useState(false);
+  const [hiddenContent, setHiddenContent] = useState(true);
   const [websocket, setWebsocket] = useState(
     new W3CWebsocket(
-      `ws://127.0.0.1:8000/messages/thao/${localStorage.getItem(
+      `ws://127.0.0.1:8000/messages/${localStorage.getItem(
         "Rooms_username"
-      )}/`
+      )}/thao/`
     )
   );
   const messagesEndRef = useRef(null);
 
   //hook
+  useEffect(() => {
+    websocket.onmessage = (message) => {
+      const dataFromServer = JSON.parse(message.data);
+      setFullMessage([
+        ...fullMessage,
+        { message: JSON.stringify(dataFromServer) },
+      ]);
+    };
+  });
+
   useEffect(() => {
     getIdChat(setIdChat);
     setWebsocket(
@@ -35,11 +45,11 @@ function Chat() {
       )
     );
   }, []);
+
   useEffect(() => {
-    if (idChat !== 0) {
       getFullMessage({ id: idChat, start: start, end: end }, setFullMessage);
-    }
   }, [idChat]);
+
   useEffect(() => {
     console.log(fullMessage);
   }, [fullMessage]);
@@ -47,16 +57,25 @@ function Chat() {
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  useEffect(scrollToBottom, [fullMessage]);
 
+  useEffect(() => {
+    if (hiddenContent === false) scrollToBottom();
+  }, [fullMessage]);
+
+  useEffect(() => {
+    if (hiddenContent === false) scrollToBottom();
+  }, [hiddenContent]);
+  
   useEffect(() => {
     websocket.onopen = () => {
       console.log("websocket open");
     };
+
     websocket.onmessage = (message) => {
       const dataFromServer = JSON.parse(message.data);
       console.log("got reply!", dataFromServer);
     };
+    
   }, [websocket]);
 
   //function
@@ -115,10 +134,7 @@ function Chat() {
                   msg: value.target.value,
                 })
               );
-              getFullMessage(
-                { id: idChat, start: start, end: end },
-                setFullMessage
-              );
+
             }}
           />
         </div>

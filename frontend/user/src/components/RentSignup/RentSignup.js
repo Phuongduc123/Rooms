@@ -158,6 +158,7 @@ function RentSignup(props) {
                   Mật khẩu (tối thiểu 8 ký tự)
                 </div>
                 <Input
+                  type="password"
                   style={{
                     borderRadius: "30px",
                     background: "#e3fbfd",
@@ -312,7 +313,7 @@ function RentSignup(props) {
           <Form.Item>
             <div style={{ textAlign: "center" }}>
               Bạn đã có tài khoản Easy{" "}
-              <span className="text-logo">Accomod</span>? <a>Đăng nhập</a>
+              <span className="text-logo">Accomod</span>? <a onClick={()=>{history.push("/login")}}>Đăng nhập</a>
             </div>
           </Form.Item>
         </Form>

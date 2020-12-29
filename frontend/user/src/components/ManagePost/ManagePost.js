@@ -31,11 +31,11 @@ function ManagePost(props) {
             justifyContent: "center",
           }}
         >
-          {props.postListIsntConfirmed.map((post, index) => {
+          {props.postListIsConfirmed.map((post, index) => {
             if (index - i * 3 < 3 && index - i * 3 >= 0) {
               return (
                 <div key={index} style={{ margin: "10px" }}>
-                  <PlaceCard image={post.images[0]} hostName={post.hostName} id={post.id} post={post}/>
+                  <PlaceCard image={post.images[0]} hostName={post.hostName} id={post.id} post={post} numberOfRoom={post.numberOfRoom} />
                 </div>
               );
             }
@@ -56,7 +56,7 @@ function ManagePost(props) {
       <div style={{ display: "flex" }}>
         <div style={{ flex: 1.4 }} />
         <div style={{ flex: 14, display: "flex" }}>
-          <div className="orange-text">Lê Xuân Huy </div>
+          <div className="orange-text">{localStorage.getItem("Rooms_username")}</div>
           <div className="I" />
           <div className="black-text">Quản lý bài viết</div>
         </div>
@@ -103,6 +103,7 @@ function ManagePost(props) {
 const mapStateToProps = (state) => {
   return {
     postListIsntConfirmed: state.post.postListIsntConfirmed,
+    postListIsConfirmed: state.post.postListIsConfirmed
   };
 };
 

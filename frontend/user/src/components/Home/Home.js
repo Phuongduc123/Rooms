@@ -17,8 +17,16 @@ const contentStyle = {
   background: "#364d79",
 };
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 function onChange(a, b, c) {
-  console.log(a, b, c);
+  
 }
 
 function Home(props) {
@@ -35,8 +43,20 @@ function Home(props) {
   const [searchPost, setSearchPost] = useState([]);
   const [startSearchPost, setStartSearchPost] = useState(0);
   const [endSearchPost, setEndSearchPost] = useState(5);
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   //hook
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     getSearchPost(
       {
@@ -109,22 +129,33 @@ function Home(props) {
   return (
     <div className="Home">
       <div
-        style={{ marginTop: "10px", paddingLeft: "5rem", paddingRight: "5rem" }}
+        style={{  marginTop: "10px", paddingLeft: "5rem", paddingRight: "5rem" }}
       >
-        <Carousel afterChange={onChange}>
+        <Carousel autoplay={true} afterChange={onChange}>
+          {localStorage.getItem("Rooms_user_type")!==""?
           <div>
-            <h3 style={contentStyle}>1</h3>
-          </div>
+            <img src="./assets/DaNangImage.png" width={windowDimensions.width*0.9} height={windowDimensions.width/3.5} />
+          </div>:
           <div>
-            <h3 style={contentStyle}>2</h3>
+          <img src="./assets/image1.png" width={windowDimensions.width*0.9} height={windowDimensions.width/3.5} />
           </div>
+          }
+          {localStorage.getItem("Rooms_user_type")!==""?<div>
+            <img src="./assets/HaNoiImage.png" width={windowDimensions.width*0.9} height={windowDimensions.width/3.5} />
+          </div>:
           <div>
-            <h3 style={contentStyle}>3</h3>
-          </div>
+          <img src="./assets/image2.png" width={windowDimensions.width*0.9} height={windowDimensions.width/3.5} />
+          </div>}
+          {localStorage.getItem("Rooms_user_type")!==""?<div>
+            <img src="./assets/SaiGonImage.png" width={windowDimensions.width*0.9} height={windowDimensions.width/3.5} />
+          </div>:
           <div>
-            <h3 style={contentStyle}>4</h3>
-          </div>
+          <img src="./assets/image3.png" width={windowDimensions.width*0.9} height={windowDimensions.width/3.5} />
+          </div>}
+          
         </Carousel>
+        
+        
         <div>
           {props.searching !== "" ? (
             <div className="sidebar-div" style={{ flex: 7.8, padding: "30px" }}>
